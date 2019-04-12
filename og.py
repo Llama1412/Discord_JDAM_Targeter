@@ -138,14 +138,17 @@ def get_targets(first_input, second_input):
                     round((latitude - lat_d - (lat_m / 60)) * 3600))
                 lat_ds = "{:05.2f}".format(lat_s + lat_ds)
 
-                if float(lat_ds) >= 60:
+
+
+
+                if float(lat_ds) > 60:
                     lat_m = lat_m + 1
                     lat_s = lat_s - 60
                 if float(lat_ds) <= 0:
                     lat_m = lat_m - 1
                     lat_ds = lat_s + 60
 
-                if float(lat_m) >= 60:
+                if float(lat_m) > 60:
                     lat_d = lat_d + 1
                     lat_m = lat_m - 60
                 if float(lat_m) <= 0:
@@ -159,14 +162,14 @@ def get_targets(first_input, second_input):
                     round((longitude - lon_d - (lon_m / 60)) * 3600))
                 lon_ds = "{:05.2f}".format(lon_s + lon_ds)
 
-                if float(lon_ds) >= 60:
+                if float(lon_ds) > 60:
                     lon_m = lon_m + 1
                     lon_s = lon_s - 60
                 if float(lon_ds) <= 0:
                     lon_m = lon_m - 1
                     lon_ds = lon_s + 60
 
-                if float(lon_m) >= 60:
+                if float(lon_m) > 60:
                     lon_d = lon_d + 1
                     lon_m = lon_m - 60
                 if float(lon_m) <= 0:
