@@ -1,20 +1,8 @@
-import urllib.request
 import json
-import math
+import urllib.request
+
 import geopy.distance
-from prettytable import PrettyTable
-from termcolor import colored
-import pyfiglet
-
-ascii_banner = pyfiglet.figlet_format("JDAM Targeter")
-print(colored(ascii_banner, "cyan"))
-print(colored(
-    "Decide where you want to attack and enter the Lat and Lon for the target area. The program will then identify all ground targets within 5 miles of it.\n",
-    "cyan"))
-
-x = PrettyTable()
-x.field_names = ["Unit Name", "Latitude", "Longitude", "Elevation", "Distance"]
-height_offset = 5
+import math
 
 
 class THREAT:
@@ -96,109 +84,94 @@ def calculate_initial_compass_bearing(point_a, point_b):
     return compass_bearing
 
 
-# first_input = input(colored("Enter Lat:\t", "yellow"))
-first_input = "431503"
-# second_input = input(colored("Enter Lon:\t", "yellow"))
-second_input = "401909"
-
-lat_deg = int(first_input[0:2])
-lat_min = int(first_input[2:4])
-lat_sec = int(first_input[4:6])
-lat_final = float(lat_deg + (lat_min * (1 / 60)) + (lat_sec * (1 / 3600)))
-
-lon_deg = int(second_input[0:2])
-lon_min = int(second_input[2:4])
-lon_sec = int(second_input[4:6])
-lon_final = float(lon_deg + (lon_min * (1 / 60)) + (lon_sec * (1 / 3600)))
-
-
-# print(str(lat_final)+" "+str(lon_final))
-
 class Bogey:
-    def __init__(self, type, lat, lon, elev, threat):
-        self.Type = type
+    def __init__(self, target_type, lat, lon, elev, dist, threat):
+        self.Type = target_type
         self.Lat = lat
         self.Lon = lon
         self.Elev = elev
+        self.Dist = dist
         self.Threat = threat
 
 
-with urllib.request.urlopen("https://state.hoggitworld.com/f67eecc6-4659-44fd-a4fd-8816c993ad0e") as url:
-    data = json.loads(url.read().decode())
-    onscreen = 0
-    for i in range(len(data["objects"])):
-        TargPos = (lat_final, lon_final)
-        if data["objects"][i]["Coalition"] == "Allies" and data["objects"][i]["Flags"]["Born"]:
-            plane = data["objects"][i]
-            Threat = False
-            Type = plane["Name"]
-            Lat = plane["LatLongAlt"]["Lat"]
-            Lon = plane["LatLongAlt"]["Long"]
-            Alt = plane["LatLongAlt"]["Alt"]
-            AltFeet = float(Alt / 0.3048)
-            TPos = (Lat, Lon)
-            if Type not in aircraft:
-                if Type in threats.keys():
-                    Threat = threats[Type]
+def get_targets(first_input, second_input):
+    lat_deg = int(first_input[0:2])
+    lat_min = int(first_input[2:4])
+    lat_sec = int(first_input[4:6])
+    lat_final = float(lat_deg + (lat_min * (1 / 60)) + (lat_sec * (1 / 3600)))
 
-                else:
-                    Threat = THREAT.UNKNOWN
+    lon_deg = int(second_input[0:2])
+    lon_min = int(second_input[2:4])
+    lon_sec = int(second_input[4:6])
+    lon_final = float(lon_deg + (lon_min * (1 / 60)) + (lon_sec * (1 / 3600)))
+    target_list = []
+    with urllib.request.urlopen("https://state.hoggitworld.com/f67eecc6-4659-44fd-a4fd-8816c993ad0e") as url:
+        data = json.loads(url.read().decode())
+        for i in range(len(data["objects"])):
+            target_pos = (lat_final, lon_final)
+            if data["objects"][i]["Coalition"] == "Allies" and data["objects"][i]["Flags"]["Born"]:
+                plane = data["objects"][i]
+                threat = False
+                enemy_type = plane["Name"]
+                latitude = plane["LatLongAlt"]["Lat"]
+                longitude = plane["LatLongAlt"]["Long"]
+                altitude = plane["LatLongAlt"]["Alt"]
+                altitude_feet = float(altitude / 0.3048)
+                target_position = (latitude, longitude)
+                if enemy_type not in aircraft:
+                    if enemy_type in threats.keys():
+                        threat = threats[enemy_type]
 
-            Distance = geopy.distance.distance(TargPos, TPos).nm
+                    else:
+                        threat = THREAT.UNKNOWN
 
-            A = (lon_final, lon_final)
-            B = (Lat, Lon)
-            Bearing = calculate_initial_compass_bearing(A, B)
-            # print(Distance)
-            lat_d = math.floor(Lat)
-            lat_m = math.floor((Lat - lat_d) * 60)
-            lat_s = round((Lat - lat_d - (lat_m / 60)) * 3600)
-            lat_ds = (round((Lat - lat_d - (lat_m / 60)) * 3600 * 100) / 100) - (
-                round((Lat - lat_d - (lat_m / 60)) * 3600))
-            lat_ds = "{:05.2f}".format(lat_s + lat_ds)
+                distance = geopy.distance.distance(target_pos, target_position).nm
 
-            if lat_s >= 60:
-                lat_m = lat_m + 1
-                lat_s = lat_s - 60
-            if lat_s <= 0:
-                lat_m = lat_m - 1
-                lat_s = lat_s + 60
+                lat_d = math.floor(latitude)
+                lat_m = math.floor((latitude - lat_d) * 60)
+                lat_s = round((latitude - lat_d - (lat_m / 60)) * 3600)
+                lat_ds = (round((latitude - lat_d - (lat_m / 60)) * 3600 * 100) / 100) - (
+                    round((latitude - lat_d - (lat_m / 60)) * 3600))
+                lat_ds = "{:05.2f}".format(lat_s + lat_ds)
 
-            if lat_m >= 60:
-                lat_d = lat_d + 1
-                lat_m = lat_m - 60
-            if lat_m <= 0:
-                lat_d = lat_d - 1
-                lat_m = lat_m + 60
+                if float(lat_ds) >= 60:
+                    lat_m = lat_m + 1
+                    lat_s = lat_s - 60
+                if float(lat_ds) <= 0:
+                    lat_m = lat_m - 1
+                    lat_ds = lat_s + 60
 
+                if float(lat_m) >= 60:
+                    lat_d = lat_d + 1
+                    lat_m = lat_m - 60
+                if float(lat_m) <= 0:
+                    lat_d = lat_d - 1
+                    lat_m = lat_m + 60
 
-            lon_d = math.floor(Lon)
-            lon_m = math.floor((Lon - lon_d) * 60)
-            lon_s = round((Lon - lon_d - (lon_m / 60)) * 3600)
-            lon_ds = (round((Lon - lon_d - (lon_m / 60)) * 3600 * 100) / 100) - (
-                round((Lon - lon_d - (lon_m / 60)) * 3600))
-            lon_ds = "{:05.2f}".format(lon_s + lon_ds)
+                lon_d = math.floor(longitude)
+                lon_m = math.floor((longitude - lon_d) * 60)
+                lon_s = round((longitude - lon_d - (lon_m / 60)) * 3600)
+                lon_ds = (round((longitude - lon_d - (lon_m / 60)) * 3600 * 100) / 100) - (
+                    round((longitude - lon_d - (lon_m / 60)) * 3600))
+                lon_ds = "{:05.2f}".format(lon_s + lon_ds)
 
-            if lon_s >= 60:
-                lon_m = lon_m + 1
-                lon_s = lon_s - 60
-            if lon_s <= 0:
-                lon_m = lon_m - 1
-                lon_s = lon_s + 60
+                if float(lon_ds) >= 60:
+                    lon_m = lon_m + 1
+                    lon_s = lon_s - 60
+                if float(lon_ds) <= 0:
+                    lon_m = lon_m - 1
+                    lon_ds = lon_s + 60
 
-            if lon_m >= 60:
-                lon_d = lon_d + 1
-                lon_m = lon_m - 60
-            if lon_m <= 0:
-                lon_d = lon_d - 1
-                lon_m = lon_m + 60
+                if float(lon_m) >= 60:
+                    lon_d = lon_d + 1
+                    lon_m = lon_m - 60
+                if float(lon_m) <= 0:
+                    lon_d = lon_d - 1
+                    lon_m = lon_m + 60
 
-            if Distance <= 1000 and Threat != False:
-                x.add_row([colored(Type, Threat),
-                           colored(str("{:02d}".format(lat_d)) + "°" + str("{:02d}".format(lat_m)) + "'" + str(
-                               lat_ds) + '"', Threat),
-                           colored(str("{:02d}".format(lon_d)) + "°" + str("{:02d}".format(lon_m)) + "'" + str(
-                               lon_ds) + '"', Threat),
-                           colored(str(round(AltFeet) + height_offset) + "ft", Threat),
-                           colored(str(round(Distance, 4)) + "nm", Threat)])
-print(x)
+                final_lat = str("{:02d}".format(lat_d)) + "°" + str("{:02d}".format(lat_m)) + "'" + str(lat_ds) + '"'
+                final_lon = str("{:02d}".format(lon_d)) + "°" + str("{:02d}".format(lon_m)) + "'" + str(lon_ds) + '"'
+                if distance <= 1000 and threat is not False:
+                    target_list.append(Bogey(enemy_type, final_lat, final_lon, altitude_feet, distance, threat))
+
+    return target_list
