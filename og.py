@@ -95,16 +95,20 @@ class Bogey:
 
 
 def get_targets(first_input, second_input):
+    target_list = []
+
     lat_deg = int(first_input[0:2])
     lat_min = int(first_input[2:4])
     lat_sec = int(first_input[4:6])
     lat_final = float(lat_deg + (lat_min * (1 / 60)) + (lat_sec * (1 / 3600)))
+    print(lat_final)
 
     lon_deg = int(second_input[0:2])
     lon_min = int(second_input[2:4])
     lon_sec = int(second_input[4:6])
     lon_final = float(lon_deg + (lon_min * (1 / 60)) + (lon_sec * (1 / 3600)))
-    target_list = []
+    print(lon_final)
+
     with urllib.request.urlopen("https://state.hoggitworld.com/f67eecc6-4659-44fd-a4fd-8816c993ad0e") as url:
         data = json.loads(url.read().decode())
         for i in range(len(data["objects"])):
@@ -171,7 +175,7 @@ def get_targets(first_input, second_input):
 
                 final_lat = str("{:02d}".format(lat_d)) + "°" + str("{:02d}".format(lat_m)) + "'" + str(lat_ds) + '"'
                 final_lon = str("{:02d}".format(lon_d)) + "°" + str("{:02d}".format(lon_m)) + "'" + str(lon_ds) + '"'
-                if distance <= 1000 and threat is not False:
+                if distance <= 5 and threat is not False:
                     target_list.append(Bogey(enemy_type, final_lat, final_lon, altitude_feet, distance, threat))
-
+    print(target_list)
     return target_list
