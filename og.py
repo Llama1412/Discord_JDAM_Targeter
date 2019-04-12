@@ -96,11 +96,10 @@ def calculate_initial_compass_bearing(point_a, point_b):
     return compass_bearing
 
 
-first_input = input(colored("Enter Lat:\t", "yellow"))
-# first_input = "431503"
-second_input = input(colored("Enter Lon:\t", "yellow"))
-# second_input = "401909"
-
+# first_input = input(colored("Enter Lat:\t", "yellow"))
+first_input = "431503"
+# second_input = input(colored("Enter Lon:\t", "yellow"))
+second_input = "401909"
 
 lat_deg = int(first_input[0:2])
 lat_min = int(first_input[2:4])
@@ -111,7 +110,17 @@ lon_deg = int(second_input[0:2])
 lon_min = int(second_input[2:4])
 lon_sec = int(second_input[4:6])
 lon_final = float(lon_deg + (lon_min * (1 / 60)) + (lon_sec * (1 / 3600)))
+
+
 # print(str(lat_final)+" "+str(lon_final))
+
+class Bogey:
+    def __init__(self, type, lat, lon, elev, threat):
+        self.Type = type
+        self.Lat = lat
+        self.Lon = lon
+        self.Elev = elev
+        self.Threat = threat
 
 
 with urllib.request.urlopen("https://state.hoggitworld.com/f67eecc6-4659-44fd-a4fd-8816c993ad0e") as url:
@@ -148,10 +157,20 @@ with urllib.request.urlopen("https://state.hoggitworld.com/f67eecc6-4659-44fd-a4
                 round((Lat - lat_d - (lat_m / 60)) * 3600))
             lat_ds = "{:05.2f}".format(lat_s + lat_ds)
 
-            if lat_s == 60:
+            if lat_s >= 60:
                 lat_m = lat_m + 1
-            if lat_m == 60:
+                lat_s = lat_s - 60
+            if lat_s <= 0:
+                lat_m = lat_m - 1
+                lat_s = lat_s + 60
+
+            if lat_m >= 60:
                 lat_d = lat_d + 1
+                lat_m = lat_m - 60
+            if lat_m <= 0:
+                lat_d = lat_d - 1
+                lat_m = lat_m + 60
+
 
             lon_d = math.floor(Lon)
             lon_m = math.floor((Lon - lon_d) * 60)
@@ -160,12 +179,21 @@ with urllib.request.urlopen("https://state.hoggitworld.com/f67eecc6-4659-44fd-a4
                 round((Lon - lon_d - (lon_m / 60)) * 3600))
             lon_ds = "{:05.2f}".format(lon_s + lon_ds)
 
-            if lon_s == 60:
+            if lon_s >= 60:
                 lon_m = lon_m + 1
-            if lon_m == 60:
-                lon_d = lon_d + 1
+                lon_s = lon_s - 60
+            if lon_s <= 0:
+                lon_m = lon_m - 1
+                lon_s = lon_s + 60
 
-            if Distance <= 5 and Threat != False:
+            if lon_m >= 60:
+                lon_d = lon_d + 1
+                lon_m = lon_m - 60
+            if lon_m <= 0:
+                lon_d = lon_d - 1
+                lon_m = lon_m + 60
+
+            if Distance <= 1000 and Threat != False:
                 x.add_row([colored(Type, Threat),
                            colored(str("{:02d}".format(lat_d)) + "°" + str("{:02d}".format(lat_m)) + "'" + str(
                                lat_ds) + '"', Threat),
