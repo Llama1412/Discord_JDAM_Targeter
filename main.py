@@ -122,6 +122,6 @@ async def on_message(message):
             any_targets = True
 
         if any_targets is False:
-            await client.send_message(message.channel, content="There were no targets detected at that site.")
+            await client.send_message(message.channel, content="There were no targets detected within 5nm of that point.")
 
 client.run(token, bot=False)
