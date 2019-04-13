@@ -6,12 +6,12 @@ import math
 
 
 class THREAT:
-    HIGH = "red"
-    MEDIUM = "yellow"
-    LOW = "green"
-    NONE = "blue"
-    STATIC = "cyan"
-    UNKNOWN = "white"
+    HIGH = 1
+    MEDIUM = 2
+    LOW = 3
+    NONE = 4
+    STATIC = 5
+    UNKNOWN = 6
 
 
 threats = {
@@ -44,6 +44,7 @@ threats = {
     "ZSU-23-4 Shilka": THREAT.LOW,
 
     "BMP-1": THREAT.NONE,
+    "BMD-1": THREAT.NONE,
     "SAU Msta": THREAT.NONE,
     "Infantry AK": THREAT.NONE,
     "SA-18 Igla-S comm": THREAT.NONE,
@@ -55,6 +56,9 @@ threats = {
     "ATZ-10": THREAT.NONE,
     "S-300PS 54K6 cp": THREAT.NONE,
     "BMP-2": THREAT.NONE,
+    "Dog Ear radar": THREAT.NONE,
+    "ZIL-4331": THREAT.NONE,
+    "Ural-375 PBU": THREAT.NONE,
 
     "FARP": THREAT.STATIC,
     "house2arm": THREAT.STATIC,
@@ -62,12 +66,19 @@ threats = {
     "outpost": THREAT.STATIC,
 }
 
-aircraft = [
+filter = [
+    "KUZNECOW",
     "J-11A",
     "F-5E-3",
     "Su-25T",
     "A-50",
-    "An-30M"
+    "An-30M",
+    "Su-33",
+    "MiG-31",
+    "MiG-21Bis",
+    "Su-27",
+    "R-27ER"
+
 ]
 
 
@@ -94,20 +105,21 @@ class Bogey:
         self.Threat = threat
 
 
-def get_targets(first_input, second_input):
-    target_list = []
+max_range = 5
 
+
+def get_targets(first_input, second_input, threat_level):
+
+    target_list = []
     lat_deg = int(first_input[0:2])
     lat_min = int(first_input[2:4])
     lat_sec = int(first_input[4:6])
     lat_final = float(lat_deg + (lat_min * (1 / 60)) + (lat_sec * (1 / 3600)))
-    print(lat_final)
 
     lon_deg = int(second_input[0:2])
     lon_min = int(second_input[2:4])
     lon_sec = int(second_input[4:6])
     lon_final = float(lon_deg + (lon_min * (1 / 60)) + (lon_sec * (1 / 3600)))
-    print(lon_final)
 
     with urllib.request.urlopen("https://state.hoggitworld.com/f67eecc6-4659-44fd-a4fd-8816c993ad0e") as url:
         data = json.loads(url.read().decode())
@@ -122,7 +134,7 @@ def get_targets(first_input, second_input):
                 altitude = plane["LatLongAlt"]["Alt"]
                 altitude_feet = float(altitude / 0.3048)
                 target_position = (latitude, longitude)
-                if enemy_type not in aircraft:
+                if enemy_type not in filter:
                     if enemy_type in threats.keys():
                         threat = threats[enemy_type]
 
@@ -175,7 +187,8 @@ def get_targets(first_input, second_input):
 
                 final_lat = str("{:02d}".format(lat_d)) + "°" + str("{:02d}".format(lat_m)) + "'" + str(lat_ds) + '"'
                 final_lon = str("{:02d}".format(lon_d)) + "°" + str("{:02d}".format(lon_m)) + "'" + str(lon_ds) + '"'
-                if distance <= 5 and threat is not False:
+                if distance <= max_range and threat is not False and threat == threat_level:
                     target_list.append(Bogey(enemy_type, final_lat, final_lon, altitude_feet, distance, threat))
-    print(target_list)
+
+    # sorted_target_list = sorted(target_list, key=lambda x: x.Threat)
     return target_list
