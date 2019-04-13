@@ -83,6 +83,7 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    any_targets = False
     if message.author is not client:
         print(message.author.name + ": " + message.content)
     if message.author == client.user:
@@ -103,16 +104,24 @@ async def on_message(message):
 
         if embed_one is not False:
             await client.send_message(message.channel, embed=build_embed(grouped[0], grouped[1], 1))
+            any_targets = True
         if embed_two is not False:
             await client.send_message(message.channel, embed=build_embed(grouped[0], grouped[1], 2))
+            any_targets = True
         if embed_three is not False:
             await client.send_message(message.channel, embed=build_embed(grouped[0], grouped[1], 3))
+            any_targets = True
         if embed_four is not False:
             await client.send_message(message.channel, embed=build_embed(grouped[0], grouped[1], 4))
+            any_targets = True
         if embed_five is not False:
             await client.send_message(message.channel, embed=build_embed(grouped[0], grouped[1], 5))
+            any_targets = True
         if embed_six is not False:
             await client.send_message(message.channel, embed=build_embed(grouped[0], grouped[1], 6))
+            any_targets = True
 
+        if any_targets is False:
+            await client.send_message(message.channel, content="There were no targets detected at that site.")
 
 client.run(token, bot=False)

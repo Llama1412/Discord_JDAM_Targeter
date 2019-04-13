@@ -77,7 +77,9 @@ filter = [
     "MiG-31",
     "MiG-21Bis",
     "Su-27",
-    "R-27ER"
+    "R-27ER",
+    "weapons.missiles.Igla_1E",
+    "9M311"
 
 ]
 
