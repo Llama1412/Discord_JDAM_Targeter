@@ -91,6 +91,8 @@ def check_if_assign(message):
     if len(grouped) == 3:
         if check_if_int(grouped[2]):
             return "numbers"
+        else:
+            return "names"
     elif len(grouped) > 3:
         return "names"
     else:
