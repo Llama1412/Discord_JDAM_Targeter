@@ -62,6 +62,14 @@ def build_embed(lat, lon, threat):
     else:
         return False
 
+def check_if_int(test):
+    try:
+        check = int(test)
+        return True
+    except ValueError:
+        return False
+
+
 
 def check_valid(message):
     try:
@@ -73,6 +81,17 @@ def check_valid(message):
             return False
     except:
         return False
+
+def check_if_assign(message):
+        msg = message.content
+        grouped = msg.split(" ")
+        if len(grouped) == 3:
+            if check_if_int(grouped[2]):
+                return "numbers"
+        elif len(grouped) > 3:
+            return "names"
+        else:
+            return False
 
 
 @client.event
@@ -90,38 +109,90 @@ async def on_message(message):
         return
 
     elif check_valid(message):
-        grouped = message.content.split(" ")
-        print("Detected Lat: " + str(grouped[0]))
-        print("Detected Lon: " + str(grouped[1]))
-        await client.send_message(message.channel, "Those are valid coordinates. Fetching....")
+        if check_if_assign(message) == "names":
+            grouped = message.content.split(" ")
+            print("Detected Lat: " + str(grouped[0]))
+            print("Detected Lon: " + str(grouped[1]))
+            await client.send_message(message.channel, "Those are valid coordinates with individual targets assigned. Fetching....")
 
-        embed_one = build_embed(grouped[0], grouped[1], 1)
-        embed_two = build_embed(grouped[0], grouped[1], 2)
-        embed_three = build_embed(grouped[0], grouped[1], 3)
-        embed_four = build_embed(grouped[0], grouped[1], 4)
-        embed_five = build_embed(grouped[0], grouped[1], 5)
-        embed_six = build_embed(grouped[0], grouped[1], 6)
+            grouped = message.content.split(" ")
+            list_of_names = grouped[2:]
+            list_of_targets = collect_sorted_targets(grouped[0], grouped[1])
 
-        if embed_one is not False:
-            await client.send_message(message.channel, embed=build_embed(grouped[0], grouped[1], 1))
-            any_targets = True
-        if embed_two is not False:
-            await client.send_message(message.channel, embed=build_embed(grouped[0], grouped[1], 2))
-            any_targets = True
-        if embed_three is not False:
-            await client.send_message(message.channel, embed=build_embed(grouped[0], grouped[1], 3))
-            any_targets = True
-        if embed_four is not False:
-            await client.send_message(message.channel, embed=build_embed(grouped[0], grouped[1], 4))
-            any_targets = True
-        if embed_five is not False:
-            await client.send_message(message.channel, embed=build_embed(grouped[0], grouped[1], 5))
-            any_targets = True
-        if embed_six is not False:
-            await client.send_message(message.channel, embed=build_embed(grouped[0], grouped[1], 6))
-            any_targets = True
+            maximum_targets = math.floor(len(list_of_targets)/4)
+            remainder = len(list_of_targets) % 4
+            count = 0
 
-        if any_targets is False:
-            await client.send_message(message.channel, content="There were no targets detected within 5nm of that point.")
+            for name in list_of_names:
+                if count < maximum_targets:
+                    targets_for_person = list_of_targets[4*count:(4*count)+4]
+                    embed = discord.Embed(
+                        title="Targets for "+name,
+                        description=str(len(targets_for_person)) + "/4 targets shown.",
+                        colour=discord.Colour.green()
+                    )
+                    for bogey in targets_for_person:
+                        embed.add_field(name=bogey.Type,
+                                        value="Lat:   " + bogey.Lat + "\nLon:   " + bogey.Lon + "\nAlt:   " + str(
+                                            round(bogey.Elev)) + "ft\nDist:   " + str(round(bogey.Dist, 4)) + "\n",
+                                        inline=True)
+
+                    await client.send_message(message.channel, embed=embed)
+                    count = count + 1
+                elif count == maximum_targets:
+                    targets_for_person = list_of_targets[4*count:(4*count)+remainder]
+                    embed = discord.Embed(
+                        title="Targets for "+name,
+                        description=str(len(targets_for_person)) + "/4 targets shown.",
+                        colour=discord.Colour.green()
+                    )
+                    for bogey in targets_for_person:
+                        embed.add_field(name=bogey.Type,
+                                        value="Lat:   " + bogey.Lat + "\nLon:   " + bogey.Lon + "\nAlt:   " + str(
+                                            round(bogey.Elev)) + "ft\nDist:   " + str(round(bogey.Dist, 4)) + "\n",
+                                        inline=True)
+
+                    await client.send_message(message.channel, embed=embed)
+
+
+
+
+        #elif check_if_assign(message) == "numbers":
+            # Allocate 4 embeds
+
+        else:
+            grouped = message.content.split(" ")
+            print("Detected Lat: " + str(grouped[0]))
+            print("Detected Lon: " + str(grouped[1]))
+            await client.send_message(message.channel, "Those are valid coordinates. Fetching....")
+
+            embed_one = build_embed(grouped[0], grouped[1], 1)
+            embed_two = build_embed(grouped[0], grouped[1], 2)
+            embed_three = build_embed(grouped[0], grouped[1], 3)
+            embed_four = build_embed(grouped[0], grouped[1], 4)
+            embed_five = build_embed(grouped[0], grouped[1], 5)
+            embed_six = build_embed(grouped[0], grouped[1], 6)
+
+            if embed_one is not False:
+                await client.send_message(message.channel, embed=build_embed(grouped[0], grouped[1], 1))
+                any_targets = True
+            if embed_two is not False:
+                await client.send_message(message.channel, embed=build_embed(grouped[0], grouped[1], 2))
+                any_targets = True
+            if embed_three is not False:
+                await client.send_message(message.channel, embed=build_embed(grouped[0], grouped[1], 3))
+                any_targets = True
+            if embed_four is not False:
+                await client.send_message(message.channel, embed=build_embed(grouped[0], grouped[1], 4))
+                any_targets = True
+            if embed_five is not False:
+                await client.send_message(message.channel, embed=build_embed(grouped[0], grouped[1], 5))
+                any_targets = True
+            if embed_six is not False:
+                await client.send_message(message.channel, embed=build_embed(grouped[0], grouped[1], 6))
+                any_targets = True
+
+            if any_targets is False:
+                await client.send_message(message.channel, content="There were no targets detected within 5nm of that point.")
 
 client.run(token, bot=False)
