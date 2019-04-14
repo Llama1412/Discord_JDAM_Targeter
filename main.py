@@ -1,4 +1,6 @@
 import discord
+import random
+
 from og import *
 
 with open("config.json") as config:
@@ -129,7 +131,7 @@ async def on_message(message):
                     embed = discord.Embed(
                         title="Targets for "+name,
                         description=str(len(targets_for_person)) + "/4 targets shown.",
-                        colour=discord.Colour.green()
+                        colour=random.randint(0,0xffffff)
                     )
                     for bogey in targets_for_person:
                         embed.add_field(name=bogey.Type,
@@ -144,7 +146,7 @@ async def on_message(message):
                     embed = discord.Embed(
                         title="Targets for "+name,
                         description=str(len(targets_for_person)) + "/4 targets shown.",
-                        colour=discord.Colour.green()
+                        colour=random.randint(0,0xffffff)
                     )
                     if len(targets_for_person) != 0:
                         for bogey in targets_for_person:
