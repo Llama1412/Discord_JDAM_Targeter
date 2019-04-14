@@ -109,7 +109,7 @@ class Bogey:
         self.Threat = threat
 
 
-max_range = 1000
+max_range = 5
 
 
 def collect_sorted_targets(first_input, second_input):

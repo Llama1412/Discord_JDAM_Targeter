@@ -146,13 +146,15 @@ async def on_message(message):
                         description=str(len(targets_for_person)) + "/4 targets shown.",
                         colour=discord.Colour.green()
                     )
-                    for bogey in targets_for_person:
-                        embed.add_field(name=bogey.Type,
-                                        value="Lat:   " + bogey.Lat + "\nLon:   " + bogey.Lon + "\nAlt:   " + str(
-                                            round(bogey.Elev)) + "ft\nDist:   " + str(round(bogey.Dist, 4)) + "\n",
-                                        inline=True)
+                    if len(targets_for_person) != 0:
+                        for bogey in targets_for_person:
+                            embed.add_field(name=bogey.Type,
+                                            value="Lat:   " + bogey.Lat + "\nLon:   " + bogey.Lon + "\nAlt:   " + str(
+                                                round(bogey.Elev)) + "ft\nDist:   " + str(round(bogey.Dist, 4)) + "\n",
+                                            inline=True)
 
-                    await client.send_message(message.channel, embed=embed)
+                        await client.send_message(message.channel, embed=embed)
+                    count = count + 1
 
 
 
