@@ -14,6 +14,10 @@ class THREAT:
     UNKNOWN = 6
 
 
+class SERVER:
+    GAW = "https://state.hoggitworld.com/f67eecc6-4659-44fd-a4fd-8816c993ad0e"
+
+
 threats = {
     "2S6 Tunguska": THREAT.HIGH,
     "SA-11 Buk LN 9A310M1": THREAT.HIGH,
@@ -125,7 +129,7 @@ def collect_sorted_targets(first_input, second_input):
     lon_sec = int(second_input[4:6])
     lon_final = float(lon_deg + (lon_min * (1 / 60)) + (lon_sec * (1 / 3600)))
 
-    with urllib.request.urlopen("https://state.hoggitworld.com/f67eecc6-4659-44fd-a4fd-8816c993ad0e") as url:
+    with urllib.request.urlopen(SERVER.GAW) as url:
         data = json.loads(url.read().decode())
         for i in range(len(data["objects"])):
             target_pos = (lat_final, lon_final)
@@ -210,7 +214,7 @@ def get_targets(first_input, second_input, threat_level):
     lon_sec = int(second_input[4:6])
     lon_final = float(lon_deg + (lon_min * (1 / 60)) + (lon_sec * (1 / 3600)))
 
-    with urllib.request.urlopen("https://state.hoggitworld.com/f67eecc6-4659-44fd-a4fd-8816c993ad0e") as url:
+    with urllib.request.urlopen(SERVER.GAW) as url:
         data = json.loads(url.read().decode())
         for i in range(len(data["objects"])):
             target_pos = (lat_final, lon_final)
