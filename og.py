@@ -63,13 +63,13 @@ threats = {
     "KAMAZ Truck": THREAT.NONE,
     "Tigr_233036": THREAT.NONE,
 
-    "FARP": THREAT.STATIC,
     "house2arm": THREAT.STATIC,
     "outpost_road": THREAT.STATIC,
     "outpost": THREAT.STATIC,
 }
 
 filter = [
+    "FARP",
     "KUZNECOW",
     "J-11A",
     "F-5E-3",
