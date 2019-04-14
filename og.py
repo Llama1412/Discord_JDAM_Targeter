@@ -61,6 +61,7 @@ threats = {
     "Ural-375 PBU": THREAT.NONE,
     "BRDM-2": THREAT.NONE,
     "KAMAZ Truck": THREAT.NONE,
+    "Tigr_233036": THREAT.NONE,
 
     "FARP": THREAT.STATIC,
     "house2arm": THREAT.STATIC,

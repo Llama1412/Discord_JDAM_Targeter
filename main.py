@@ -64,13 +64,13 @@ def build_embed(lat, lon, threat):
     else:
         return False
 
+
 def check_if_int(test):
     try:
         check = int(test)
         return True
     except ValueError:
         return False
-
 
 
 def check_valid(message):
@@ -84,16 +84,17 @@ def check_valid(message):
     except:
         return False
 
+
 def check_if_assign(message):
-        msg = message.content
-        grouped = msg.split(" ")
-        if len(grouped) == 3:
-            if check_if_int(grouped[2]):
-                return "numbers"
-        elif len(grouped) > 3:
-            return "names"
-        else:
-            return False
+    msg = message.content
+    grouped = msg.split(" ")
+    if len(grouped) == 3:
+        if check_if_int(grouped[2]):
+            return "numbers"
+    elif len(grouped) > 3:
+        return "names"
+    else:
+        return False
 
 
 @client.event
@@ -115,23 +116,24 @@ async def on_message(message):
             grouped = message.content.split(" ")
             print("Detected Lat: " + str(grouped[0]))
             print("Detected Lon: " + str(grouped[1]))
-            await client.send_message(message.channel, "Those are valid coordinates with individual targets assigned. Fetching....")
+            await client.send_message(message.channel,
+                                      "Those are valid coordinates with individual targets assigned. Fetching....")
 
             grouped = message.content.split(" ")
             list_of_names = grouped[2:]
             list_of_targets = collect_sorted_targets(grouped[0], grouped[1])
 
-            maximum_targets = math.floor(len(list_of_targets)/4)
+            maximum_targets = math.floor(len(list_of_targets) / 4)
             remainder = len(list_of_targets) % 4
             count = 0
 
             for name in list_of_names:
                 if count < maximum_targets:
-                    targets_for_person = list_of_targets[4*count:(4*count)+4]
+                    targets_for_person = list_of_targets[4 * count:(4 * count) + 4]
                     embed = discord.Embed(
-                        title="Targets for "+name,
+                        title="Targets for " + name,
                         description=str(len(targets_for_person)) + "/4 targets shown.",
-                        colour=random.randint(0,0xffffff)
+                        colour=random.randint(0, 0xffffff)
                     )
                     for bogey in targets_for_person:
                         embed.add_field(name=bogey.Type,
@@ -142,11 +144,11 @@ async def on_message(message):
                     await client.send_message(message.channel, embed=embed)
                     count = count + 1
                 elif count == maximum_targets:
-                    targets_for_person = list_of_targets[4*count:(4*count)+remainder]
+                    targets_for_person = list_of_targets[4 * count:(4 * count) + remainder]
                     embed = discord.Embed(
-                        title="Targets for "+name,
+                        title="Targets for " + name,
                         description=str(len(targets_for_person)) + "/4 targets shown.",
-                        colour=random.randint(0,0xffffff)
+                        colour=random.randint(0, 0xffffff)
                     )
                     if len(targets_for_person) != 0:
                         for bogey in targets_for_person:
@@ -157,12 +159,6 @@ async def on_message(message):
 
                         await client.send_message(message.channel, embed=embed)
                     count = count + 1
-
-
-
-
-        #elif check_if_assign(message) == "numbers":
-            # Allocate 4 embeds
 
         else:
             grouped = message.content.split(" ")
@@ -197,6 +193,8 @@ async def on_message(message):
                 any_targets = True
 
             if any_targets is False:
-                await client.send_message(message.channel, content="There were no targets detected within 5nm of that point.")
+                await client.send_message(message.channel,
+                                          content="There were no targets detected within 5nm of that point.")
+
 
 client.run(token, bot=False)
