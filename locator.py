@@ -1,11 +1,12 @@
 import json
 import urllib.request
-
+import math
 import geopy
 import numpy as np
 from scipy.cluster.hierarchy import ward, fcluster
 from scipy.spatial.distance import pdist
 from sklearn.cluster import KMeans
+
 
 
 class SITE:
@@ -17,22 +18,6 @@ class SITE:
 
 def locate_groups():
     Y = []
-    my_filter = [
-        "FARP",
-        "KUZNECOW",
-        "J-11A",
-        "F-5E-3",
-        "Su-25T",
-        "A-50",
-        "An-30M",
-        "Su-33",
-        "MiG-31",
-        "MiG-21Bis",
-        "Su-27",
-        "R-27ER",
-        "weapons.missiles.Igla_1E",
-        "9M311"
-    ]
 
     count = 0
     with urllib.request.urlopen("https://state.hoggitworld.com/f67eecc6-4659-44fd-a4fd-8816c993ad0e") as url:
@@ -62,14 +47,18 @@ def locate_groups():
 
 
 def get_coords(name):
-    with urllib.request.urlopen("http://state.hoggitworld.com/") as url:
-        data = json.loads(url.read().decode())
-        for i in range(len(data["objects"])):
-            if data["objects"][i]["Flags"]["Human"]:
-                if data["objects"][i]["UnitName"] == name:
-                    MyLat = data["objects"][i]["LatLongAlt"]["Lat"]
-                    MyLon = data["objects"][i]["LatLongAlt"]["Long"]
-    return [MyLat, MyLon]
+    try:
+        with urllib.request.urlopen("https://state.hoggitworld.com/f67eecc6-4659-44fd-a4fd-8816c993ad0e") as url:
+            data = json.loads(url.read().decode())
+            for i in range(len(data["objects"])):
+                if data["objects"][i]["Flags"]["Human"]:
+                    if data["objects"][i]["UnitName"] == name:
+                        MyLat = data["objects"][i]["LatLongAlt"]["Lat"]
+                        MyLon = data["objects"][i]["LatLongAlt"]["Long"]
+        return [MyLat, MyLon]
+    except UnboundLocalError:
+        return "error"
+
 
 
 def get_closest_site(coords):
@@ -79,5 +68,55 @@ def get_closest_site(coords):
         calculated_distance = geopy.distance.distance(coords, group).nm
         sites.append(SITE(group[0], group[1], calculated_distance))
 
-    sorted_sites_list = sorted(sites, key=lambda x: x.Distance)
+    sorted_sites_list = sorted(sites, key=lambda x: x.dist)
     return sorted_sites_list[0]
+
+
+def convert_position(latitude, longitude):
+
+    lat_d = math.floor(latitude)
+    lat_m = math.floor((latitude - lat_d) * 60)
+    lat_s = round((latitude - lat_d - (lat_m / 60)) * 3600)
+    lat_ds = (round((latitude - lat_d - (lat_m / 60)) * 3600 * 100) / 100) - (
+        round((latitude - lat_d - (lat_m / 60)) * 3600))
+    lat_ds = "{:05.2f}".format(lat_s + lat_ds)
+
+    if float(lat_ds) >= 60:
+        lat_m = lat_m + 1
+        lat_s = lat_s - 60
+    if float(lat_ds) < 0:
+        lat_m = lat_m - 1
+        lat_ds = lat_s + 60
+
+    if lat_m >= 60:
+        lat_d = lat_d + 1
+        lat_m = lat_m - 60
+    if float(lat_m) < 0:
+        lat_d = lat_d - 1
+        lat_m = lat_m + 60
+
+    lon_d = math.floor(longitude)
+    lon_m = math.floor((longitude - lon_d) * 60)
+    lon_s = round((longitude - lon_d - (lon_m / 60)) * 3600)
+    lon_ds = (round((longitude - lon_d - (lon_m / 60)) * 3600 * 100) / 100) - (
+        round((longitude - lon_d - (lon_m / 60)) * 3600))
+    lon_ds = "{:05.2f}".format(lon_s + lon_ds)
+
+    if float(lon_ds) >= 60:
+        lon_m = lon_m + 1
+        lon_s = lon_s - 60
+    if float(lon_ds) <= 0:
+        lon_m = lon_m - 1
+        lon_ds = lon_s + 60
+
+    if lon_m >= 60:
+        lon_d = lon_d + 1
+        lon_m = lon_m - 60
+    if float(lon_m) < 0:
+        lon_d = lon_d - 1
+        lon_m = lon_m + 60
+
+    final_lat = str("{:02d}".format(lat_d)) + "°" + str("{:02d}".format(lat_m)) + "'" + str(lat_ds) + '"'
+    final_lon = str("{:02d}".format(lon_d)) + "°" + str("{:02d}".format(lon_m)) + "'" + str(lon_ds) + '"'
+
+    return final_lat, final_lon

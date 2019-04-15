@@ -1,8 +1,5 @@
 import random
-
 import discord
-
-from locator import *
 from og import *
 
 with open("config.json") as config:
@@ -112,23 +109,29 @@ async def on_message(message):
     any_targets = False
     if message.author is not client:
         print(message.author.name + ": " + message.content)
-    elif message.author == client.user:
+    if message.author == client.user:
         return
 
     elif message.content.startswith("lookup"):
         splitup = message.content.split(" ")
-        name = splitup[1]
+        name = " ".join(splitup[1:])
+        print("Triggered lookup for "+str(name))
         name_coords = get_coords(name)
-        closest_site = get_closest_site(name_coords)
-        embed = discord.Embed(
-            title="Closest enemy site for " + str(name),
-            colour=random.randint(0, 0xffffff)
-        )
-        embed.add_field(name=closest_site.dist,
-                        value="Lat:   " + closest_site.lat + "\nLon:   " + closest_site.lon)
 
+        if name_coords == "error":
+            await client.send_message(message.channel, name+" isn't a user in the server.")
 
+        else:
+            closest_site = get_closest_site(name_coords)
 
+            final_lat, final_lon = convert_position(closest_site.lat, closest_site.lon)
+            embed = discord.Embed(
+                title="Closest enemy site for " + str(name),
+                colour=random.randint(0, 0xffffff)
+            )
+            embed.add_field(name="Range: "+str(round(closest_site.dist,2))+"nm",
+                            value="Lat:   " + str(final_lat) + "\nLon:   " + str(final_lon))
+            await client.send_message(message.channel, embed=embed)
 
     elif check_valid(message):
         if check_if_assign(message) == "names":
