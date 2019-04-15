@@ -87,7 +87,6 @@ filter = [
     "R-27ER",
     "weapons.missiles.Igla_1E",
     "9M311"
-
 ]
 
 

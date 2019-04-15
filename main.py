@@ -1,6 +1,8 @@
-import discord
 import random
 
+import discord
+
+from locator import *
 from og import *
 
 with open("config.json") as config:
@@ -110,8 +112,23 @@ async def on_message(message):
     any_targets = False
     if message.author is not client:
         print(message.author.name + ": " + message.content)
-    if message.author == client.user:
+    elif message.author == client.user:
         return
+
+    elif message.content.startswith("lookup"):
+        splitup = message.content.split(" ")
+        name = splitup[1]
+        name_coords = get_coords(name)
+        closest_site = get_closest_site(name_coords)
+        embed = discord.Embed(
+            title="Closest enemy site for " + str(name),
+            colour=random.randint(0, 0xffffff)
+        )
+        embed.add_field(name=closest_site.dist,
+                        value="Lat:   " + closest_site.lat + "\nLon:   " + closest_site.lon)
+
+
+
 
     elif check_valid(message):
         if check_if_assign(message) == "names":
