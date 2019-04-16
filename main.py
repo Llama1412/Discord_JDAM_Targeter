@@ -76,6 +76,8 @@ def check_valid(message):
     try:
         msg = message.content
         grouped = msg.split(" ")
+        first = int(grouped[0])
+        second = int(grouped[1])
         if len(grouped[0]) == 6 and len(grouped[1]) == 6:
             return True
         else:
@@ -111,6 +113,25 @@ async def on_message(message):
         print(message.author.name + ": " + message.content)
     if message.author == client.user:
         return
+
+    elif message.content.startswith("help"):
+        embed = discord.Embed(
+            title="Help Menu",
+            colour=random.randint(0, 0xffffff)
+        )
+        embed.add_field(name="<6 fig lat> <6 fig lon>",
+                        value="Looks up all units in a 5nm range around the coordinates and returns their position and type.")
+        embed.add_field(name="<6 fig lat> <6 fig lon> <list of names>",
+                        value="Finds all targets around the coordinates, assigns up to 4 to each name, and then returns them, as well as formatted coords for Michae1s' JDAM entry tool.")
+        embed.add_field(name="<6 fig lat> <6 fig lon> <list of names>",
+                        value="Finds all targets around the coordinates, assigns up to 4 to each name, and then returns them, as well as formatted coords for Michae1s' JDAM entry tool.")
+        embed.add_field(name="lookup <exact ingame name>",
+                        value="Looks up the target user and returns the nearest group of enemies to them.")
+
+
+        embed.add_field(name="help",
+                        value="Shows this menu.")
+        await client.send_message(message.channel, embed=embed)
 
     elif message.content.startswith("lookup"):
         splitup = message.content.split(" ")
