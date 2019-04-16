@@ -183,7 +183,7 @@ async def on_message(message):
                                             value="Lat:   " + bogey.Lat + "\nLon:   " + bogey.Lon + "\nAlt:   " + str(
                                                 round(bogey.Elev)) + "ft\nDist:   " + str(round(bogey.Dist, 4)) + "\n",
                                             inline=True)
-                            list_of_crap.append(bogey.lat_raw+"\n"+bogey.lon_raw+"\n"+bogey.Elev+"\n")
+                            list_of_crap.append(bogey.lat_raw+"\n"+bogey.lon_raw+"\n"+str(round(bogey.Elev))+"\n")
                         embed.add_field(name="Michae1s",
                                         value="".join(list_of_crap),
                                         inline=True)
