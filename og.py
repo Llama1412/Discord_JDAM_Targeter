@@ -110,13 +110,15 @@ def calculate_initial_compass_bearing(point_a, point_b):
 
 
 class Bogey:
-    def __init__(self, target_type, lat, lon, elev, dist, threat):
+    def __init__(self, target_type, lat, lon, elev, dist, threat, latraw, lonraw):
         self.Type = target_type
         self.Lat = lat
         self.Lon = lon
         self.Elev = elev
         self.Dist = dist
         self.Threat = threat
+        self.lat_raw = latraw
+        self.lon_raw = lonraw
 
 
 max_range = 5
@@ -200,8 +202,12 @@ def collect_sorted_targets(first_input, second_input):
 
                 final_lat = str("{:02d}".format(lat_d)) + "°" + str("{:02d}".format(lat_m)) + "'" + str(lat_ds) + '"'
                 final_lon = str("{:02d}".format(lon_d)) + "°" + str("{:02d}".format(lon_m)) + "'" + str(lon_ds) + '"'
+
+                lat_raw = str("{:02d}".format(lat_d))+str("{:02d}".format(lat_m))+str(lat_ds)
+                lon_raw = str("{:02d}".format(lon_d))+str("{:02d}".format(lon_m))+str(lon_ds)
+
                 if distance <= max_range and threat is not False:
-                    target_list.append(Bogey(enemy_type, final_lat, final_lon, altitude_feet, distance, threat))
+                    target_list.append(Bogey(enemy_type, final_lat, final_lon, altitude_feet, distance, threat, str(int(float(lat_raw)*100)), str(int(float(lon_raw)*100))))
 
     sorted_target_list = sorted(target_list, key=lambda x: x.Threat)
     return sorted_target_list
@@ -286,7 +292,7 @@ def get_targets(first_input, second_input, threat_level):
                 final_lat = str("{:02d}".format(lat_d)) + "°" + str("{:02d}".format(lat_m)) + "'" + str(lat_ds) + '"'
                 final_lon = str("{:02d}".format(lon_d)) + "°" + str("{:02d}".format(lon_m)) + "'" + str(lon_ds) + '"'
                 if distance <= max_range and threat is not False and threat == threat_level:
-                    target_list.append(Bogey(enemy_type, final_lat, final_lon, altitude_feet, distance, threat))
+                    target_list.append(Bogey(enemy_type, final_lat, final_lon, altitude_feet, distance, threat, 0, 0))
 
     # sorted_target_list = sorted(target_list, key=lambda x: x.Threat)
     return target_list

@@ -150,6 +150,7 @@ async def on_message(message):
             count = 0
 
             for name in list_of_names:
+                list_of_crap = []
                 if count < maximum_targets:
                     targets_for_person = list_of_targets[4 * count:(4 * count) + 4]
                     embed = discord.Embed(
@@ -162,7 +163,11 @@ async def on_message(message):
                                         value="Lat:   " + bogey.Lat + "\nLon:   " + bogey.Lon + "\nAlt:   " + str(
                                             round(bogey.Elev)) + "ft\nDist:   " + str(round(bogey.Dist, 4)) + "\n",
                                         inline=True)
+                        list_of_crap.append(bogey.lat_raw+"\n"+bogey.lon_raw+"\n"+str(round(bogey.Elev))+"\n")
 
+                    embed.add_field(name="Michae1s",
+                                    value="".join(list_of_crap),
+                                    inline=True)
                     await client.send_message(message.channel, embed=embed)
                     count = count + 1
                 elif count == maximum_targets:
@@ -178,7 +183,10 @@ async def on_message(message):
                                             value="Lat:   " + bogey.Lat + "\nLon:   " + bogey.Lon + "\nAlt:   " + str(
                                                 round(bogey.Elev)) + "ft\nDist:   " + str(round(bogey.Dist, 4)) + "\n",
                                             inline=True)
-
+                            list_of_crap.append(bogey.lat_raw+"\n"+bogey.lon_raw+"\n"+bogey.Elev+"\n")
+                        embed.add_field(name="Michae1s",
+                                        value="".join(list_of_crap),
+                                        inline=True)
                         await client.send_message(message.channel, embed=embed)
                     count = count + 1
 
