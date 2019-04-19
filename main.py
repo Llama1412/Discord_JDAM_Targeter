@@ -1,6 +1,7 @@
 import random
 import discord
 from og import *
+import mgrs
 
 with open("config.json") as config:
     data = json.load(config)
@@ -113,6 +114,17 @@ async def on_message(message):
         print(message.author.name + ": " + message.content)
     if message.author == client.user:
         return
+
+    elif message.content.startswith("convert"):
+        grouped = message.content.split(" ")
+        if len(grouped) == 2: #Assume no spacing
+            m = mgrs.MGRS()
+            c = grouped(1)
+            lat, lon = m.toLatLon(c)
+
+            first, second = convert_position(lat, lon)
+
+            await client.send_message(message.channel, str(first)+" "+str(second))
 
     elif message.content.startswith("help"):
         embed = discord.Embed(
