@@ -119,7 +119,7 @@ async def on_message(message):
         grouped = message.content.split(" ")
         if len(grouped) == 2: #Assume no spacing
             m = mgrs.MGRS()
-            c = grouped(1)
+            c = grouped[1]
             lat, lon = m.toLatLon(c)
 
             first, second = convert_position(lat, lon)
