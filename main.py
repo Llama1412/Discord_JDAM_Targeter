@@ -137,6 +137,8 @@ async def on_message(message):
                         value="Finds all targets around the coordinates, assigns up to 4 to each name, and then returns them, as well as formatted coords for Michae1s' JDAM entry tool.")
         embed.add_field(name="lookup <exact ingame name>",
                         value="Looks up the target user and returns the nearest group of enemies to them.")
+        embed.add_field(name="convert <mgrs coords no spaces>",
+                        value="Converts mgrs coordinates into DDMMSS.ss")
 
 
         embed.add_field(name="help",
