@@ -21,6 +21,7 @@ class THREAT:
 
 class SERVER:
     GAW = "https://state.hoggitworld.com/f67eecc6-4659-44fd-a4fd-8816c993ad0e"
+    PGAW = "https://state.hoggitworld.com/243bd8b1-3198-4c0b-817a-fadb40decf23"
 
 
 threats = {
@@ -124,7 +125,7 @@ class Bogey:
 max_range = 5
 
 
-def collect_sorted_targets(first_input, second_input):
+def collect_sorted_targets(first_input, second_input, server):
     target_list = []
     lat_deg = int(first_input[0:2])
     lat_min = int(first_input[2:4])
@@ -136,7 +137,7 @@ def collect_sorted_targets(first_input, second_input):
     lon_sec = int(second_input[4:6])
     lon_final = float(lon_deg + (lon_min * (1 / 60)) + (lon_sec * (1 / 3600)))
 
-    with urllib.request.urlopen(SERVER.GAW) as url:
+    with urllib.request.urlopen(server) as url:
         data = json.loads(url.read().decode())
         for i in range(len(data["objects"])):
             target_pos = (lat_final, lon_final)
@@ -213,7 +214,7 @@ def collect_sorted_targets(first_input, second_input):
     return sorted_target_list
 
 
-def get_targets(first_input, second_input, threat_level):
+def get_targets(first_input, second_input, threat_level, server):
     target_list = []
     lat_deg = int(first_input[0:2])
     lat_min = int(first_input[2:4])
@@ -225,7 +226,7 @@ def get_targets(first_input, second_input, threat_level):
     lon_sec = int(second_input[4:6])
     lon_final = float(lon_deg + (lon_min * (1 / 60)) + (lon_sec * (1 / 3600)))
 
-    with urllib.request.urlopen(SERVER.GAW) as url:
+    with urllib.request.urlopen(server) as url:
         data = json.loads(url.read().decode())
         for i in range(len(data["objects"])):
             target_pos = (lat_final, lon_final)
@@ -304,11 +305,11 @@ class SITE:
         self.dist = distance
 
 
-def locate_groups():
+def locate_groups(server):
     Y = []
 
     count = 0
-    with urllib.request.urlopen("https://state.hoggitworld.com/f67eecc6-4659-44fd-a4fd-8816c993ad0e") as url:
+    with urllib.request.urlopen(server) as url:
         data = json.loads(url.read().decode())
         for i in range(len(data["objects"])):
             if data["objects"][i]["Coalition"] == "Allies" and data["objects"][i]["Flags"]["Born"] and \
@@ -334,9 +335,9 @@ def locate_groups():
     return cluster_centers
 
 
-def get_coords(name):
+def get_coords(name, server):
     try:
-        with urllib.request.urlopen("https://state.hoggitworld.com/f67eecc6-4659-44fd-a4fd-8816c993ad0e") as url:
+        with urllib.request.urlopen(server) as url:
             data = json.loads(url.read().decode())
             for i in range(len(data["objects"])):
                 if data["objects"][i]["Flags"]["Human"]:
@@ -348,9 +349,9 @@ def get_coords(name):
         return "error"
 
 
-def get_closest_site(coords):
+def get_closest_site(coords, server):
     sites = []
-    coords_list = locate_groups()
+    coords_list = locate_groups(server)
     for group in coords_list:
         calculated_distance = geopy.distance.distance(coords, group).nm
         sites.append(SITE(group[0], group[1], calculated_distance))
