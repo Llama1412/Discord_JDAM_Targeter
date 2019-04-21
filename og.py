@@ -53,6 +53,7 @@ threats = {
     "ZU-23 Emplacement Closed": THREAT.LOW,
     "ZU-23 Emplacement": THREAT.LOW,
     "ZSU-23-4 Shilka": THREAT.LOW,
+    "Ural-375 ZU-23 Insurgent": THREAT.LOW,
 
     "BMP-1": THREAT.NONE,
     "BMD-1": THREAT.NONE,
