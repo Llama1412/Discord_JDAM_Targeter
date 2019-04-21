@@ -73,6 +73,13 @@ threats = {
     "BRDM-2": THREAT.NONE,
     "KAMAZ Truck": THREAT.NONE,
     "Tigr_233036": THREAT.NONE,
+    "T-90": THREAT.NONE,
+    "Ural-4320-31": THREAT.NONE,
+    "T-80UD": THREAT.NONE,
+    "BTR_D": THREAT.NONE,
+    "GAZ-66": THREAT.NONE,
+    "GAZ-3308": THREAT.NONE,
+    "T-55": THREAT.NONE,
 
     "house2arm": THREAT.STATIC,
     "outpost_road": THREAT.STATIC,
