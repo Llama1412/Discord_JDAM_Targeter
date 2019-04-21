@@ -120,11 +120,11 @@ async def on_message(message):
             title="Help Menu",
             colour=random.randint(0, 0xffffff)
         )
-        embed.add_field(name="[gaw/pgaw] <6 fig lat> <6 fig lon>",
+        embed.add_field(name="[gaw/pgaw/cvw] <6 fig lat> <6 fig lon>",
                         value="Looks up all units in a 5nm range around the coordinates and returns their position and type.")
-        embed.add_field(name="[gaw/pgaw] <6 fig lat> <6 fig lon> <list of names>",
+        embed.add_field(name="[gaw/pgaw/cvw] <6 fig lat> <6 fig lon> <list of names>",
                         value="Finds all targets around the coordinates, assigns up to 4 to each name, and then returns them, as well as formatted coords for Michae1s' JDAM entry tool.")
-        embed.add_field(name="[gaw/pgaw] lookup <exact ingame name>",
+        embed.add_field(name="[gaw/pgaw/cvw] lookup <exact ingame name>",
                         value="Looks up the target user and returns the nearest group of enemies to them.")
 
         embed.add_field(name="help",
@@ -163,6 +163,27 @@ async def on_message(message):
 
         else:
             closest_site = get_closest_site(name_coords, SERVER.GAW)
+
+            final_lat, final_lon = convert_position(closest_site.lat, closest_site.lon)
+            embed = discord.Embed(
+                title="Closest enemy site for " + str(name),
+                colour=random.randint(0, 0xffffff)
+            )
+            embed.add_field(name="Range: "+str(round(closest_site.dist,2))+"nm",
+                            value="Lat:   " + str(final_lat) + "\nLon:   " + str(final_lon))
+            await client.send_message(message.channel, embed=embed)
+
+    if message.content.startswith("cvw lookup"):
+        splitup = message.content.split(" ")
+        name = " ".join(splitup[2:])
+        print("Triggered lookup for "+str(name))
+        name_coords = get_coords(name, SERVER.CVW)
+
+        if name_coords == "error":
+            await client.send_message(message.channel, name+" isn't a user in the server.")
+
+        else:
+            closest_site = get_closest_site(name_coords, SERVER.CVW)
 
             final_lat, final_lon = convert_position(closest_site.lat, closest_site.lon)
             embed = discord.Embed(
@@ -360,6 +381,98 @@ async def on_message(message):
                 if any_targets is False:
                     await client.send_message(message.channel,
                                               content="There were no targets detected within 5nm of that point.")
+    elif message.content.startswith("cvw"):
+        if check_valid(message):
+            if check_if_assign(message) == "names":
+                grouped = message.content.split(" ")
+                print("Detected Lat: " + str(grouped[1]))
+                print("Detected Lon: " + str(grouped[2]))
+                await client.send_message(message.channel,
+                                          "Those are valid coordinates with individual targets assigned. Fetching....")
 
+                grouped = message.content.split(" ")
+                list_of_names = grouped[3:]
+                list_of_targets = collect_sorted_targets(grouped[1], grouped[2], SERVER.CVW)
+
+                maximum_targets = math.floor(len(list_of_targets) / 4)
+                remainder = len(list_of_targets) % 4
+                count = 0
+
+                for name in list_of_names:
+                    list_of_crap = []
+                    if count < maximum_targets:
+                        targets_for_person = list_of_targets[4 * count:(4 * count) + 4]
+                        embed = discord.Embed(
+                            title="Targets for " + name,
+                            description=str(len(targets_for_person)) + "/4 targets shown.",
+                            colour=random.randint(0, 0xffffff)
+                        )
+                        for bogey in targets_for_person:
+                            embed.add_field(name=bogey.Type,
+                                            value="Lat:   " + bogey.Lat + "\nLon:   " + bogey.Lon + "\nAlt:   " + str(
+                                                round(bogey.Elev)) + "ft\nDist:   " + str(round(bogey.Dist, 4)) + "\n",
+                                            inline=True)
+                            list_of_crap.append(bogey.lat_raw+"\n"+bogey.lon_raw+"\n"+str(round(bogey.Elev))+"\n")
+
+                        embed.add_field(name="Michae1s",
+                                        value="".join(list_of_crap),
+                                        inline=True)
+                        await client.send_message(message.channel, embed=embed)
+                        count = count + 1
+                    elif count == maximum_targets:
+                        targets_for_person = list_of_targets[4 * count:(4 * count) + remainder]
+                        embed = discord.Embed(
+                            title="Targets for " + name,
+                            description=str(len(targets_for_person)) + "/4 targets shown.",
+                            colour=random.randint(0, 0xffffff)
+                        )
+                        if len(targets_for_person) != 0:
+                            for bogey in targets_for_person:
+                                embed.add_field(name=bogey.Type,
+                                                value="Lat:   " + bogey.Lat + "\nLon:   " + bogey.Lon + "\nAlt:   " + str(
+                                                    round(bogey.Elev)) + "ft\nDist:   " + str(round(bogey.Dist, 4)) + "\n",
+                                                inline=True)
+                                list_of_crap.append(bogey.lat_raw+"\n"+bogey.lon_raw+"\n"+str(round(bogey.Elev))+"\n")
+                            embed.add_field(name="Michae1s",
+                                            value="".join(list_of_crap),
+                                            inline=True)
+                            await client.send_message(message.channel, embed=embed)
+                        count = count + 1
+
+            else:
+                grouped = message.content.split(" ")
+                print("Detected Lat: " + str(grouped[1]))
+                print("Detected Lon: " + str(grouped[2]))
+                await client.send_message(message.channel, "Those are valid coordinates. Fetching....")
+
+                embed_one = build_embed(grouped[1], grouped[2], 1, SERVER.CVW)
+                embed_two = build_embed(grouped[1], grouped[2], 2, SERVER.CVW)
+                embed_three = build_embed(grouped[1], grouped[2], 3, SERVER.CVW)
+                embed_four = build_embed(grouped[1], grouped[2], 4, SERVER.CVW)
+                embed_five = build_embed(grouped[1], grouped[2], 5, SERVER.CVW)
+                embed_six = build_embed(grouped[1], grouped[2], 6, SERVER.CVW)
+
+                if embed_one is not False:
+                    await client.send_message(message.channel, embed=embed_one)
+                    any_targets = True
+                if embed_two is not False:
+                    await client.send_message(message.channel, embed=embed_two)
+                    any_targets = True
+                if embed_three is not False:
+                    await client.send_message(message.channel, embed=embed_three)
+                    any_targets = True
+                if embed_four is not False:
+                    await client.send_message(message.channel, embed=embed_four)
+                    any_targets = True
+                if embed_five is not False:
+                    await client.send_message(message.channel, embed=embed_five)
+                    any_targets = True
+                if embed_six is not False:
+                    await client.send_message(message.channel, embed=embed_six)
+                    any_targets = True
+
+                if any_targets is False:
+                    await client.send_message(message.channel,
+                                              content="There were no targets detected within 5nm of that point.")
 
 client.run(token, bot=False)
