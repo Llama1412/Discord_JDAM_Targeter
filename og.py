@@ -46,6 +46,9 @@ threats = {
     "S_75M_Volhov": THREAT.HIGH,
     "Kub 1S91 str": THREAT.HIGH,
     "SNR_75V": THREAT.HIGH,
+    "rapier_fsa_blindfire_radar": THREAT.HIGH,
+    "rapier_fsa_launcher": THREAT.HIGH,
+    "rapier_fsa_optical_tracker_unit": THREAT.HIGH,
 
     "SA-18 Igla-S manpad": THREAT.MEDIUM,
 
