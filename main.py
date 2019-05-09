@@ -1,7 +1,6 @@
 import random
 import discord
 from og import *
-import mgrs
 
 with open("config.json") as config:
     data = json.load(config)
@@ -66,24 +65,21 @@ def build_embed(lat, lon, threat, server):
 
 
 def check_if_int(test):
-    try:
-        check = int(test)
+    if type(test) is int:
         return True
-    except ValueError:
+    else:
         return False
 
 
 def check_valid(message):
-    try:
-        msg = message.content
-        grouped = msg.split(" ")
-        first = int(grouped[1])
-        second = int(grouped[2])
+    msg = message.content
+    grouped = msg.split(" ")
+    if type(grouped[1]) is int and type(grouped[2]) is int:
         if len(grouped[1]) == 6 and len(grouped[2]) == 6:
             return True
         else:
             return False
-    except:
+    else:
         return False
 
 
@@ -134,11 +130,11 @@ async def on_message(message):
     if message.content.startswith("pgaw lookup"):
         splitup = message.content.split(" ")
         name = " ".join(splitup[2:])
-        print("Triggered lookup for "+str(name))
+        print("Triggered lookup for " + str(name))
         name_coords = get_coords(name, SERVER.PGAW)
 
         if name_coords == "error":
-            await client.send_message(message.channel, name+" isn't a user in the server.")
+            await client.send_message(message.channel, name + " isn't a user in the server.")
 
         else:
             closest_site = get_closest_site(name_coords, SERVER.PGAW)
@@ -148,18 +144,18 @@ async def on_message(message):
                 title="Closest enemy site for " + str(name),
                 colour=random.randint(0, 0xffffff)
             )
-            embed.add_field(name="Range: "+str(round(closest_site.dist,2))+"nm",
+            embed.add_field(name="Range: " + str(round(closest_site.dist, 2)) + "nm",
                             value="Lat:   " + str(final_lat) + "\nLon:   " + str(final_lon))
             await client.send_message(message.channel, embed=embed)
 
     if message.content.startswith("gaw lookup"):
         splitup = message.content.split(" ")
         name = " ".join(splitup[2:])
-        print("Triggered lookup for "+str(name))
+        print("Triggered lookup for " + str(name))
         name_coords = get_coords(name, SERVER.GAW)
 
         if name_coords == "error":
-            await client.send_message(message.channel, name+" isn't a user in the server.")
+            await client.send_message(message.channel, name + " isn't a user in the server.")
 
         else:
             closest_site = get_closest_site(name_coords, SERVER.GAW)
@@ -169,18 +165,18 @@ async def on_message(message):
                 title="Closest enemy site for " + str(name),
                 colour=random.randint(0, 0xffffff)
             )
-            embed.add_field(name="Range: "+str(round(closest_site.dist,2))+"nm",
+            embed.add_field(name="Range: " + str(round(closest_site.dist, 2)) + "nm",
                             value="Lat:   " + str(final_lat) + "\nLon:   " + str(final_lon))
             await client.send_message(message.channel, embed=embed)
 
     if message.content.startswith("cvw lookup"):
         splitup = message.content.split(" ")
         name = " ".join(splitup[2:])
-        print("Triggered lookup for "+str(name))
+        print("Triggered lookup for " + str(name))
         name_coords = get_coords(name, SERVER.CVW)
 
         if name_coords == "error":
-            await client.send_message(message.channel, name+" isn't a user in the server.")
+            await client.send_message(message.channel, name + " isn't a user in the server.")
 
         else:
             closest_site = get_closest_site(name_coords, SERVER.CVW)
@@ -190,7 +186,7 @@ async def on_message(message):
                 title="Closest enemy site for " + str(name),
                 colour=random.randint(0, 0xffffff)
             )
-            embed.add_field(name="Range: "+str(round(closest_site.dist,2))+"nm",
+            embed.add_field(name="Range: " + str(round(closest_site.dist, 2)) + "nm",
                             value="Lat:   " + str(final_lat) + "\nLon:   " + str(final_lon))
             await client.send_message(message.channel, embed=embed)
 
@@ -225,7 +221,8 @@ async def on_message(message):
                                             value="Lat:   " + bogey.Lat + "\nLon:   " + bogey.Lon + "\nAlt:   " + str(
                                                 round(bogey.Elev)) + "ft\nDist:   " + str(round(bogey.Dist, 4)) + "\n",
                                             inline=True)
-                            list_of_crap.append(bogey.lat_raw+"\n"+bogey.lon_raw+"\n"+str(round(bogey.Elev))+"\n")
+                            list_of_crap.append(
+                                bogey.lat_raw + "\n" + bogey.lon_raw + "\n" + str(round(bogey.Elev)) + "\n")
 
                         embed.add_field(name="Michae1s",
                                         value="".join(list_of_crap),
@@ -243,9 +240,11 @@ async def on_message(message):
                             for bogey in targets_for_person:
                                 embed.add_field(name=bogey.Type,
                                                 value="Lat:   " + bogey.Lat + "\nLon:   " + bogey.Lon + "\nAlt:   " + str(
-                                                    round(bogey.Elev)) + "ft\nDist:   " + str(round(bogey.Dist, 4)) + "\n",
+                                                    round(bogey.Elev)) + "ft\nDist:   " + str(
+                                                    round(bogey.Dist, 4)) + "\n",
                                                 inline=True)
-                                list_of_crap.append(bogey.lat_raw+"\n"+bogey.lon_raw+"\n"+str(round(bogey.Elev))+"\n")
+                                list_of_crap.append(
+                                    bogey.lat_raw + "\n" + bogey.lon_raw + "\n" + str(round(bogey.Elev)) + "\n")
                             embed.add_field(name="Michae1s",
                                             value="".join(list_of_crap),
                                             inline=True)
@@ -318,7 +317,8 @@ async def on_message(message):
                                             value="Lat:   " + bogey.Lat + "\nLon:   " + bogey.Lon + "\nAlt:   " + str(
                                                 round(bogey.Elev)) + "ft\nDist:   " + str(round(bogey.Dist, 4)) + "\n",
                                             inline=True)
-                            list_of_crap.append(bogey.lat_raw+"\n"+bogey.lon_raw+"\n"+str(round(bogey.Elev))+"\n")
+                            list_of_crap.append(
+                                bogey.lat_raw + "\n" + bogey.lon_raw + "\n" + str(round(bogey.Elev)) + "\n")
 
                         embed.add_field(name="Michae1s",
                                         value="".join(list_of_crap),
@@ -336,9 +336,11 @@ async def on_message(message):
                             for bogey in targets_for_person:
                                 embed.add_field(name=bogey.Type,
                                                 value="Lat:   " + bogey.Lat + "\nLon:   " + bogey.Lon + "\nAlt:   " + str(
-                                                    round(bogey.Elev)) + "ft\nDist:   " + str(round(bogey.Dist, 4)) + "\n",
+                                                    round(bogey.Elev)) + "ft\nDist:   " + str(
+                                                    round(bogey.Dist, 4)) + "\n",
                                                 inline=True)
-                                list_of_crap.append(bogey.lat_raw+"\n"+bogey.lon_raw+"\n"+str(round(bogey.Elev))+"\n")
+                                list_of_crap.append(
+                                    bogey.lat_raw + "\n" + bogey.lon_raw + "\n" + str(round(bogey.Elev)) + "\n")
                             embed.add_field(name="Michae1s",
                                             value="".join(list_of_crap),
                                             inline=True)
@@ -357,7 +359,6 @@ async def on_message(message):
                 embed_four = build_embed(grouped[1], grouped[2], 4, SERVER.PGAW)
                 embed_five = build_embed(grouped[1], grouped[2], 5, SERVER.PGAW)
                 embed_six = build_embed(grouped[1], grouped[2], 6, SERVER.PGAW)
-
 
                 if embed_one is not False:
                     await client.send_message(message.channel, embed=embed_one)
@@ -412,7 +413,8 @@ async def on_message(message):
                                             value="Lat:   " + bogey.Lat + "\nLon:   " + bogey.Lon + "\nAlt:   " + str(
                                                 round(bogey.Elev)) + "ft\nDist:   " + str(round(bogey.Dist, 4)) + "\n",
                                             inline=True)
-                            list_of_crap.append(bogey.lat_raw+"\n"+bogey.lon_raw+"\n"+str(round(bogey.Elev))+"\n")
+                            list_of_crap.append(
+                                bogey.lat_raw + "\n" + bogey.lon_raw + "\n" + str(round(bogey.Elev)) + "\n")
 
                         embed.add_field(name="Michae1s",
                                         value="".join(list_of_crap),
@@ -430,9 +432,11 @@ async def on_message(message):
                             for bogey in targets_for_person:
                                 embed.add_field(name=bogey.Type,
                                                 value="Lat:   " + bogey.Lat + "\nLon:   " + bogey.Lon + "\nAlt:   " + str(
-                                                    round(bogey.Elev)) + "ft\nDist:   " + str(round(bogey.Dist, 4)) + "\n",
+                                                    round(bogey.Elev)) + "ft\nDist:   " + str(
+                                                    round(bogey.Dist, 4)) + "\n",
                                                 inline=True)
-                                list_of_crap.append(bogey.lat_raw+"\n"+bogey.lon_raw+"\n"+str(round(bogey.Elev))+"\n")
+                                list_of_crap.append(
+                                    bogey.lat_raw + "\n" + bogey.lon_raw + "\n" + str(round(bogey.Elev)) + "\n")
                             embed.add_field(name="Michae1s",
                                             value="".join(list_of_crap),
                                             inline=True)
@@ -474,5 +478,6 @@ async def on_message(message):
                 if any_targets is False:
                     await client.send_message(message.channel,
                                               content="There were no targets detected within 5nm of that point.")
+
 
 client.run(token, bot=False)
