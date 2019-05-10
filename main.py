@@ -1,6 +1,7 @@
 import random
 import discord
 from og import *
+from prettytable import PrettyTable
 
 with open("config.json") as config:
     data = json.load(config)
@@ -126,6 +127,35 @@ async def on_message(message):
         embed.add_field(name="help",
                         value="Shows this menu.")
         await client.send_message(message.channel, embed=embed)
+
+    if message.content.startswith("list"):
+        server_address = None
+        if message.content.split(" ")[1] == "gaw":
+            server_address = SERVER.GAW
+        elif message.content.split(" ")[1] == "pgaw":
+            server_address = SERVER.PGAW
+        elif message.content.split(" ")[1] == "cvw":
+            server_address = SERVER.CVW
+        if server_address is not None:
+            count = 0
+            people = []
+            y = PrettyTable()
+            y.field_names = ["Name", "Aircraft"]
+            with urllib.request.urlopen(server_address) as url:
+                found_data = json.loads(url.read().decode())
+                for i in range(len(found_data["objects"])):
+                    if found_data["objects"][i]["Flags"]["Human"]:
+                        count = count + 1
+                        name = str(found_data["objects"][i]["UnitName"])
+                        plane = str(found_data["objects"][i]["Name"])
+                        people.append(Player(name, plane))
+            sorted_people = sorted(people, key=lambda x: x.Name)
+            for player in sorted_people:
+                y.add_row([player.Name, player.Plane])
+            y.align["Name"] = "l"
+            y.align["Aircraft"] = "l"
+            msg = "```\n"+str(y)+"\n```"
+            await client.send_message(message.channel, msg)
 
     if message.content.startswith("pgaw lookup"):
         splitup = message.content.split(" ")

@@ -19,6 +19,12 @@ class THREAT:
     UNKNOWN = 6
 
 
+class Player:
+    def __init__(self, name, plane):
+        self.Name = name
+        self.Plane = plane
+
+
 class SERVER:
     GAW = "https://state.hoggitworld.com/f67eecc6-4659-44fd-a4fd-8816c993ad0e"
     PGAW = "https://state.hoggitworld.com/243bd8b1-3198-4c0b-817a-fadb40decf23"
