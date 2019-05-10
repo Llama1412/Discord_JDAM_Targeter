@@ -145,6 +145,7 @@ async def on_message(message):
                 found_data = json.loads(url.read().decode())
                 playercount = int(found_data["players"]-1)
                 maxplayers = int(found_data["maxPlayers"]-1)
+                servername = found_data["serverName"]
                 for i in range(len(found_data["objects"])):
                     if found_data["objects"][i]["Flags"]["Human"]:
                         count = count + 1
@@ -156,7 +157,7 @@ async def on_message(message):
                 y.add_row([player.Name, player.Plane])
             y.align["Name"] = "l"
             y.align["Aircraft"] = "l"
-            msg = "Currently "+str(playercount)+"out of "+str(maxplayers)+"```\n"+str(y)+"\n```"
+            msg = "There are currently "+str(playercount)+" out of "+str(maxplayers)+"connected to "+str(servername)+"```\n"+str(y)+"\n```"
             await client.send_message(message.channel, msg)
 
     if message.content.startswith("pgaw lookup"):
