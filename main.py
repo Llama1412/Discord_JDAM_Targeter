@@ -154,7 +154,7 @@ async def on_message(message):
                         name = str(found_data["objects"][i]["UnitName"])
                         plane = str(found_data["objects"][i]["Name"])
                         people.append(Player(name, plane))
-            sorted_people = sorted(people, key=lambda x: x.Name)
+            sorted_people = sorted(people, key=lambda x: x.Plane)
             for player in sorted_people:
                 y.add_row([player.Name, player.Plane])
             y.align["Name"] = "l"
