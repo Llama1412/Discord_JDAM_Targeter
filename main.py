@@ -2,11 +2,18 @@ import random
 import discord
 from og import *
 from prettytable import PrettyTable
+import datetime
 
 with open("config.json") as config:
     data = json.load(config)
     token = data["token"]
 client = discord.Client()
+
+
+def calc_time_restart(uptime):
+    uptime_seconds = uptime
+    time_remaining_seconds = 14400 - uptime_seconds
+    return datetime.timedelta(seconds=time_remaining_seconds)
 
 
 def build_embed(lat, lon, threat, server):
@@ -148,6 +155,7 @@ async def on_message(message):
                 playercount = int(found_data["players"] - 1)
                 maxplayers = int(found_data["maxPlayers"] - 1)
                 servername = found_data["serverName"]
+                ttr = calc_time_restart(found_data["uptime"])
                 for i in range(len(found_data["objects"])):
                     if found_data["objects"][i]["Flags"]["Human"]:
                         count = count + 1
@@ -160,7 +168,7 @@ async def on_message(message):
             y.align["Name"] = "l"
             y.align["Aircraft"] = "l"
             msg = "There are currently " + str(playercount) + " out of " + str(maxplayers) + " connected to " + str(
-                servername) + "```\n" + str(y) + "\n```"
+                servername) + "```\n" + str(y) + "\n```\n Time until restart:   " + str(ttr)
             await client.send_message(message.channel, msg)
 
     if message.content.lower().startswith("pgaw lookup"):
