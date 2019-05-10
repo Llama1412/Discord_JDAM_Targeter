@@ -157,7 +157,7 @@ async def on_message(message):
                 y.add_row([player.Name, player.Plane])
             y.align["Name"] = "l"
             y.align["Aircraft"] = "l"
-            msg = "There are currently "+str(playercount)+" out of "+str(maxplayers)+"connected to "+str(servername)+"```\n"+str(y)+"\n```"
+            msg = "There are currently "+str(playercount)+" out of "+str(maxplayers)+" connected to "+str(servername)+"```\n"+str(y)+"\n```"
             await client.send_message(message.channel, msg)
 
     if message.content.startswith("pgaw lookup"):
