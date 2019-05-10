@@ -123,6 +123,8 @@ async def on_message(message):
                         value="Finds all targets around the coordinates, assigns up to 4 to each name, and then returns them, as well as formatted coords for Michae1s' JDAM entry tool.")
         embed.add_field(name="[gaw/pgaw/cvw] lookup <exact ingame name>",
                         value="Looks up the target user and returns the nearest group of enemies to them.")
+        embed.add_field(name="[gaw/pgaw/cvw] list",
+                        value="Prints a list of all users on the selected server and which aircraft they are flying.")
 
         embed.add_field(name="help",
                         value="Shows this menu.")
@@ -143,8 +145,8 @@ async def on_message(message):
             y.field_names = ["Name", "Aircraft"]
             with urllib.request.urlopen(server_address) as url:
                 found_data = json.loads(url.read().decode())
-                playercount = int(found_data["players"]-1)
-                maxplayers = int(found_data["maxPlayers"]-1)
+                playercount = int(found_data["players"] - 1)
+                maxplayers = int(found_data["maxPlayers"] - 1)
                 servername = found_data["serverName"]
                 for i in range(len(found_data["objects"])):
                     if found_data["objects"][i]["Flags"]["Human"]:
@@ -157,7 +159,8 @@ async def on_message(message):
                 y.add_row([player.Name, player.Plane])
             y.align["Name"] = "l"
             y.align["Aircraft"] = "l"
-            msg = "There are currently "+str(playercount)+" out of "+str(maxplayers)+" connected to "+str(servername)+"```\n"+str(y)+"\n```"
+            msg = "There are currently " + str(playercount) + " out of " + str(maxplayers) + " connected to " + str(
+                servername) + "```\n" + str(y) + "\n```"
             await client.send_message(message.channel, msg)
 
     if message.content.lower().startswith("pgaw lookup"):
