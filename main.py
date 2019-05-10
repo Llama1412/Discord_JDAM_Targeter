@@ -123,7 +123,7 @@ async def on_message(message):
                         value="Finds all targets around the coordinates, assigns up to 4 to each name, and then returns them, as well as formatted coords for Michae1s' JDAM entry tool.")
         embed.add_field(name="[gaw/pgaw/cvw] lookup <exact ingame name>",
                         value="Looks up the target user and returns the nearest group of enemies to them.")
-        embed.add_field(name="[gaw/pgaw/cvw] list",
+        embed.add_field(name="list [gaw/pgaw/cvw]",
                         value="Prints a list of all users on the selected server and which aircraft they are flying.")
 
         embed.add_field(name="help",
