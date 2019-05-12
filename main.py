@@ -3,6 +3,7 @@ import discord
 from og import *
 from prettytable import PrettyTable
 import datetime
+from viggen import *
 
 with open("config.json") as config:
     data = json.load(config)
@@ -258,6 +259,8 @@ async def on_message(message):
                     list_of_crap = []
                     if count < maximum_targets:
                         targets_for_person = list_of_targets[4 * count:(4 * count) + 4]
+
+
                         embed = discord.Embed(
                             title="Targets for " + name,
                             description=str(len(targets_for_person)) + "/4 targets shown.",
@@ -275,6 +278,8 @@ async def on_message(message):
                                         value="".join(list_of_crap),
                                         inline=True)
                         await client.send_message(message.channel, embed=embed)
+                        create_cartridge(targets_for_person)
+                        await client.send_file(message.channel, open("cartridge.txt", "r+"), filename="CustomCartridge.ini")
                         count = count + 1
                     elif count == maximum_targets:
                         targets_for_person = list_of_targets[4 * count:(4 * count) + remainder]
@@ -296,6 +301,9 @@ async def on_message(message):
                                             value="".join(list_of_crap),
                                             inline=True)
                             await client.send_message(message.channel, embed=embed)
+                            create_cartridge(targets_for_person)
+                            await client.send_file(message.channel, open("cartridge.txt", "r+"),
+                                                   filename="CustomCartridge.ini")
                         count = count + 1
 
             else:
@@ -371,6 +379,8 @@ async def on_message(message):
                                         value="".join(list_of_crap),
                                         inline=True)
                         await client.send_message(message.channel, embed=embed)
+                        create_cartridge(targets_for_person)
+                        await client.send_file(message.channel, open("cartridge.txt", "r+"), filename="CustomCartridge.ini")
                         count = count + 1
                     elif count == maximum_targets:
                         targets_for_person = list_of_targets[4 * count:(4 * count) + remainder]
@@ -392,6 +402,9 @@ async def on_message(message):
                                             value="".join(list_of_crap),
                                             inline=True)
                             await client.send_message(message.channel, embed=embed)
+                            create_cartridge(targets_for_person)
+                            await client.send_file(message.channel, open("cartridge.txt", "r+"),
+                                                   filename="CustomCartridge.ini")
                         count = count + 1
 
             else:
@@ -467,6 +480,8 @@ async def on_message(message):
                                         value="".join(list_of_crap),
                                         inline=True)
                         await client.send_message(message.channel, embed=embed)
+                        create_cartridge(targets_for_person)
+                        await client.send_file(message.channel, open("cartridge.txt", "r+"), filename="CustomCartridge.ini")
                         count = count + 1
                     elif count == maximum_targets:
                         targets_for_person = list_of_targets[4 * count:(4 * count) + remainder]
@@ -488,6 +503,9 @@ async def on_message(message):
                                             value="".join(list_of_crap),
                                             inline=True)
                             await client.send_message(message.channel, embed=embed)
+                            create_cartridge(targets_for_person)
+                            await client.send_file(message.channel, open("cartridge.txt", "r+"),
+                                                   filename="CustomCartridge.ini")
                         count = count + 1
 
             else:

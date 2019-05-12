@@ -140,6 +140,20 @@ class Bogey:
         self.lon_raw = lonraw
 
 
+class BogeyC:
+    def __init__(self, target_type, lat, lon, elev, dist, threat, latraw, lonraw, lat_full, lon_full):
+        self.Type = target_type
+        self.Lat = lat
+        self.Lon = lon
+        self.Elev = elev
+        self.Dist = dist
+        self.Threat = threat
+        self.lat_raw = latraw
+        self.lon_raw = lonraw
+        self.lat_full = lat_full
+        self.lon_full = lon_full
+
+
 max_range = 5
 
 
@@ -226,8 +240,9 @@ def collect_sorted_targets(first_input, second_input, server):
                 lon_raw = str("{:02d}".format(lon_d)) + str("{:02d}".format(lon_m)) + str(lon_ds)
 
                 if distance <= max_range and threat is not False:
-                    target_list.append(Bogey(enemy_type, final_lat, final_lon, altitude_feet, distance, threat,
-                                             str(int(float(lat_raw) * 100)), str(int(float(lon_raw) * 100))))
+                    target_list.append(BogeyC(enemy_type, final_lat, final_lon, altitude_feet, distance, threat,
+                                              str(int(float(lat_raw) * 100)), str(int(float(lon_raw) * 100)), latitude,
+                                              longitude))
 
     sorted_target_list = sorted(target_list, key=lambda x: x.Threat)
     return sorted_target_list
