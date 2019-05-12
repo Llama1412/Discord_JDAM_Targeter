@@ -222,11 +222,12 @@ def collect_sorted_targets(first_input, second_input, server):
                 final_lat = str("{:02d}".format(lat_d)) + "°" + str("{:02d}".format(lat_m)) + "'" + str(lat_ds) + '"'
                 final_lon = str("{:02d}".format(lon_d)) + "°" + str("{:02d}".format(lon_m)) + "'" + str(lon_ds) + '"'
 
-                lat_raw = str("{:02d}".format(lat_d))+str("{:02d}".format(lat_m))+str(lat_ds)
-                lon_raw = str("{:02d}".format(lon_d))+str("{:02d}".format(lon_m))+str(lon_ds)
+                lat_raw = str("{:02d}".format(lat_d)) + str("{:02d}".format(lat_m)) + str(lat_ds)
+                lon_raw = str("{:02d}".format(lon_d)) + str("{:02d}".format(lon_m)) + str(lon_ds)
 
                 if distance <= max_range and threat is not False:
-                    target_list.append(Bogey(enemy_type, final_lat, final_lon, altitude_feet, distance, threat, str(int(float(lat_raw)*100)), str(int(float(lon_raw)*100))))
+                    target_list.append(Bogey(enemy_type, final_lat, final_lon, altitude_feet, distance, threat,
+                                             str(int(float(lat_raw) * 100)), str(int(float(lon_raw) * 100))))
 
     sorted_target_list = sorted(target_list, key=lambda x: x.Threat)
     return sorted_target_list
@@ -316,6 +317,7 @@ def get_targets(first_input, second_input, threat_level, server):
     # sorted_target_list = sorted(target_list, key=lambda x: x.Threat)
     return target_list
 
+
 class SITE:
     def __init__(self, lat, lon, distance):
         self.lat = lat
@@ -324,29 +326,29 @@ class SITE:
 
 
 def locate_groups(server):
-    Y = []
+    y = []
 
     count = 0
     with urllib.request.urlopen(server) as url:
         data = json.loads(url.read().decode())
         for i in range(len(data["objects"])):
             if data["objects"][i]["Coalition"] == "Allies" and data["objects"][i]["Flags"]["Born"] and \
-                    data["objects"][i]["Name"] not in my_filter:
+                data["objects"][i]["Name"] not in my_filter:
                 plane = data["objects"][i]
                 latitude = plane["LatLongAlt"]["Lat"]
                 longitude = plane["LatLongAlt"]["Long"]
-                Y.append([latitude, longitude])
+                y.append([latitude, longitude])
                 count = count + 1
 
-    X = np.array(Y)
+    x = np.array(y)
 
-    Z = ward(pdist(X))
+    z = ward(pdist(x))
     max_d = 10 / 60
 
-    clusters = fcluster(Z, max_d, criterion='distance')
+    clusters = fcluster(z, max_d, criterion='distance')
     k = clusters.max() - 1
     kmeans = KMeans(n_clusters=k, precompute_distances=True)
-    kmeans.fit(X)
+    kmeans.fit(x)
 
     cluster_centers = kmeans.cluster_centers_
 
@@ -360,9 +362,9 @@ def get_coords(name, server):
             for i in range(len(data["objects"])):
                 if data["objects"][i]["Flags"]["Human"]:
                     if data["objects"][i]["UnitName"] == name:
-                        MyLat = data["objects"][i]["LatLongAlt"]["Lat"]
-                        MyLon = data["objects"][i]["LatLongAlt"]["Long"]
-        return [MyLat, MyLon]
+                        my_lat = data["objects"][i]["LatLongAlt"]["Lat"]
+                        my_lon = data["objects"][i]["LatLongAlt"]["Long"]
+        return [my_lat, my_lon]
     except UnboundLocalError:
         return "error"
 
