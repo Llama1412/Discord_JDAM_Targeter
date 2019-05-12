@@ -1,19 +1,11 @@
 import random
 import discord
 from og import *
-from prettytable import PrettyTable
-import datetime
 
 with open("config.json") as config:
     data = json.load(config)
     token = data["token"]
 client = discord.Client()
-
-
-def calc_time_restart(uptime):
-    uptime_seconds = uptime
-    time_remaining_seconds = 14400 - uptime_seconds
-    return datetime.timedelta(seconds=time_remaining_seconds)
 
 
 def build_embed(lat, lon, threat, server):
@@ -119,7 +111,7 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    elif message.content.lower().startswith("help"):
+    elif message.content.startswith("help"):
         embed = discord.Embed(
             title="Help Menu",
             colour=random.randint(0, 0xffffff)
@@ -130,48 +122,12 @@ async def on_message(message):
                         value="Finds all targets around the coordinates, assigns up to 4 to each name, and then returns them, as well as formatted coords for Michae1s' JDAM entry tool.")
         embed.add_field(name="[gaw/pgaw/cvw] lookup <exact ingame name>",
                         value="Looks up the target user and returns the nearest group of enemies to them.")
-        embed.add_field(name="list [gaw/pgaw/cvw]",
-                        value="Prints a list of all users on the selected server and which aircraft they are flying.")
 
         embed.add_field(name="help",
                         value="Shows this menu.")
         await client.send_message(message.channel, embed=embed)
 
-    if message.content.lower().startswith("list"):
-        server_address = None
-        if message.content.lower().split(" ")[1] == "gaw":
-            server_address = SERVER.GAW
-        elif message.content.lower().split(" ")[1] == "pgaw":
-            server_address = SERVER.PGAW
-        elif message.content.lower().split(" ")[1] == "cvw":
-            server_address = SERVER.CVW
-        if server_address is not None:
-            count = 0
-            people = []
-            y = PrettyTable()
-            y.field_names = ["Name", "Aircraft"]
-            with urllib.request.urlopen(server_address) as url:
-                found_data = json.loads(url.read().decode())
-                playercount = int(found_data["players"] - 1)
-                maxplayers = int(found_data["maxPlayers"] - 1)
-                servername = found_data["serverName"]
-                ttr = calc_time_restart(found_data["uptime"])
-                for i in range(len(found_data["objects"])):
-                    if found_data["objects"][i]["Flags"]["Human"]:
-                        count = count + 1
-                        name = str(found_data["objects"][i]["UnitName"])
-                        plane = str(found_data["objects"][i]["Name"])
-                        people.append(Player(name, plane))
-            sorted_people = sorted(people, key=lambda x: x.Plane)
-            for player in sorted_people:
-                y.add_row([player.Name, player.Plane])
-            y.align["Name"] = "l"
-            y.align["Aircraft"] = "l"
-            msg = "There are currently " + str(playercount) + " out of " + str(maxplayers) + " connected to " + str(
-                servername) + "```\n" + str(y) + "\n```\n Time until restart:   " + str(ttr)
-            await client.send_message(message.channel, msg)
-
-    if message.content.lower().startswith("pgaw lookup"):
+    if message.content.startswith("pgaw lookup"):
         splitup = message.content.split(" ")
         name = " ".join(splitup[2:])
         print("Triggered lookup for " + str(name))
@@ -192,7 +148,7 @@ async def on_message(message):
                             value="Lat:   " + str(final_lat) + "\nLon:   " + str(final_lon))
             await client.send_message(message.channel, embed=embed)
 
-    if message.content.lower().startswith("gaw lookup"):
+    if message.content.startswith("gaw lookup"):
         splitup = message.content.split(" ")
         name = " ".join(splitup[2:])
         print("Triggered lookup for " + str(name))
@@ -213,7 +169,7 @@ async def on_message(message):
                             value="Lat:   " + str(final_lat) + "\nLon:   " + str(final_lon))
             await client.send_message(message.channel, embed=embed)
 
-    if message.content.lower().startswith("cvw lookup"):
+    if message.content.startswith("cvw lookup"):
         splitup = message.content.split(" ")
         name = " ".join(splitup[2:])
         print("Triggered lookup for " + str(name))
@@ -234,7 +190,7 @@ async def on_message(message):
                             value="Lat:   " + str(final_lat) + "\nLon:   " + str(final_lon))
             await client.send_message(message.channel, embed=embed)
 
-    elif message.content.lower().startswith("gaw"):
+    elif message.content.startswith("gaw"):
         if check_valid(message):
             if check_if_assign(message) == "names":
                 grouped = message.content.split(" ")
@@ -330,7 +286,7 @@ async def on_message(message):
                 if any_targets is False:
                     await client.send_message(message.channel,
                                               content="There were no targets detected within 5nm of that point.")
-    elif message.content.lower().startswith("pg"):
+    elif message.content.startswith("pg"):
         if check_valid(message):
             if check_if_assign(message) == "names":
                 grouped = message.content.split(" ")
@@ -426,7 +382,7 @@ async def on_message(message):
                 if any_targets is False:
                     await client.send_message(message.channel,
                                               content="There were no targets detected within 5nm of that point.")
-    elif message.content.lower().startswith("cvw"):
+    elif message.content.startswith("cvw"):
         if check_valid(message):
             if check_if_assign(message) == "names":
                 grouped = message.content.split(" ")
