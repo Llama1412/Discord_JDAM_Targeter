@@ -140,7 +140,7 @@ async def on_message(message):
                         value="Shows this menu.")
         await client.send_message(message.channel, embed=embed)
 
-    if message.content.lower().startswith("list"):
+    elif message.content.lower().startswith("list"):
         server_address = None
         if message.content.lower().split(" ")[1] == "gaw":
             server_address = SERVER.GAW
@@ -174,7 +174,7 @@ async def on_message(message):
                 servername) + "```\n" + str(y) + "\n```\n Time until restart:   " + str(ttr)
             await client.send_message(message.channel, msg)
 
-    if message.content.lower().startswith("pgaw lookup"):
+    elif message.content.lower().startswith("pgaw lookup"):
         splitup = message.content.split(" ")
         name = " ".join(splitup[2:])
         print("Triggered lookup for " + str(name))
@@ -195,7 +195,7 @@ async def on_message(message):
                             value="Lat:   " + str(final_lat) + "\nLon:   " + str(final_lon))
             await client.send_message(message.channel, embed=embed)
 
-    if message.content.lower().startswith("gaw lookup"):
+    elif message.content.lower().startswith("gaw lookup"):
         splitup = message.content.split(" ")
         name = " ".join(splitup[2:])
         print("Triggered lookup for " + str(name))
@@ -216,7 +216,7 @@ async def on_message(message):
                             value="Lat:   " + str(final_lat) + "\nLon:   " + str(final_lon))
             await client.send_message(message.channel, embed=embed)
 
-    if message.content.lower().startswith("cvw lookup"):
+    elif message.content.lower().startswith("cvw lookup"):
         splitup = message.content.split(" ")
         name = " ".join(splitup[2:])
         print("Triggered lookup for " + str(name))
