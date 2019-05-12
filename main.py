@@ -193,7 +193,7 @@ async def on_message(message):
             await client.send_message(message.channel, embed=embed)
 
     if message.content.lower().startswith("gaw lookup"):
-        splitup = message.content.lower().split(" ")
+        splitup = message.content.split(" ")
         name = " ".join(splitup[2:])
         print("Triggered lookup for " + str(name))
         name_coords = get_coords(name, SERVER.GAW)
@@ -214,7 +214,7 @@ async def on_message(message):
             await client.send_message(message.channel, embed=embed)
 
     if message.content.lower().startswith("cvw lookup"):
-        splitup = message.content.lower().split(" ")
+        splitup = message.content.split(" ")
         name = " ".join(splitup[2:])
         print("Triggered lookup for " + str(name))
         name_coords = get_coords(name, SERVER.CVW)
@@ -237,13 +237,13 @@ async def on_message(message):
     elif message.content.lower().startswith("gaw"):
         if check_valid(message):
             if check_if_assign(message) == "names":
-                grouped = message.content.lower().split(" ")
+                grouped = message.content.split(" ")
                 print("Detected Lat: " + str(grouped[1]))
                 print("Detected Lon: " + str(grouped[2]))
                 await client.send_message(message.channel,
                                           "Those are valid coordinates with individual targets assigned. Fetching....")
 
-                grouped = message.content.lower().split(" ")
+                grouped = message.content.split(" ")
                 list_of_names = grouped[3:]
                 list_of_targets = collect_sorted_targets(grouped[1], grouped[2], SERVER.GAW)
 
@@ -296,7 +296,7 @@ async def on_message(message):
                         count = count + 1
 
             else:
-                grouped = message.content.lower().split(" ")
+                grouped = message.content.split(" ")
                 print("Detected Lat: " + str(grouped[1]))
                 print("Detected Lon: " + str(grouped[2]))
                 await client.send_message(message.channel, "Those are valid coordinates. Fetching....")
@@ -333,13 +333,13 @@ async def on_message(message):
     elif message.content.lower().startswith("pg"):
         if check_valid(message):
             if check_if_assign(message) == "names":
-                grouped = message.content.lower().split(" ")
+                grouped = message.content.split(" ")
                 print("Detected Lat: " + str(grouped[1]))
                 print("Detected Lon: " + str(grouped[2]))
                 await client.send_message(message.channel,
                                           "Those are valid coordinates with individual targets assigned. Fetching....")
 
-                grouped = message.content.lower().split(" ")
+                grouped = message.content.split(" ")
                 list_of_names = grouped[3:]
                 list_of_targets = collect_sorted_targets(grouped[1], grouped[2], SERVER.PGAW)
 
@@ -392,7 +392,7 @@ async def on_message(message):
                         count = count + 1
 
             else:
-                grouped = message.content.lower().split(" ")
+                grouped = message.content.split(" ")
                 print("Detected Lat: " + str(grouped[1]))
                 print("Detected Lon: " + str(grouped[2]))
                 await client.send_message(message.channel, "Those are valid coordinates. Fetching....")
@@ -429,13 +429,13 @@ async def on_message(message):
     elif message.content.lower().startswith("cvw"):
         if check_valid(message):
             if check_if_assign(message) == "names":
-                grouped = message.content.lower().split(" ")
+                grouped = message.content.split(" ")
                 print("Detected Lat: " + str(grouped[1]))
                 print("Detected Lon: " + str(grouped[2]))
                 await client.send_message(message.channel,
                                           "Those are valid coordinates with individual targets assigned. Fetching....")
 
-                grouped = message.content.lower().split(" ")
+                grouped = message.content.split(" ")
                 list_of_names = grouped[3:]
                 list_of_targets = collect_sorted_targets(grouped[1], grouped[2], SERVER.CVW)
 
@@ -488,7 +488,7 @@ async def on_message(message):
                         count = count + 1
 
             else:
-                grouped = message.content.lower().split(" ")
+                grouped = message.content.split(" ")
                 print("Detected Lat: " + str(grouped[1]))
                 print("Detected Lon: " + str(grouped[2]))
                 await client.send_message(message.channel, "Those are valid coordinates. Fetching....")
