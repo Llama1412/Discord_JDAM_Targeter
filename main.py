@@ -9,6 +9,8 @@ with open("config.json") as config:
     token = data["token"]
 client = discord.Client()
 
+max_assigned = 6
+
 
 def calc_time_restart(uptime):
     uptime_seconds = uptime
@@ -250,17 +252,17 @@ async def on_message(message):
                 list_of_names = grouped[3:]
                 list_of_targets = collect_sorted_targets(grouped[1], grouped[2], SERVER.GAW)
 
-                maximum_targets = math.floor(len(list_of_targets) / 4)
-                remainder = len(list_of_targets) % 4
+                maximum_targets = math.floor(len(list_of_targets) / max_assigned)
+                remainder = len(list_of_targets) % max_assigned
                 count = 0
 
                 for name in list_of_names:
                     list_of_crap = []
                     if count < maximum_targets:
-                        targets_for_person = list_of_targets[4 * count:(4 * count) + 4]
+                        targets_for_person = list_of_targets[max_assigned * count:(max_assigned * count) + max_assigned]
                         embed = discord.Embed(
                             title="Targets for " + name,
-                            description=str(len(targets_for_person)) + "/4 targets shown.",
+                            description=str(len(targets_for_person)) + "/" + str(max_assigned) + " targets shown.",
                             colour=random.randint(0, 0xffffff)
                         )
                         for bogey in targets_for_person:
@@ -277,10 +279,10 @@ async def on_message(message):
                         await client.send_message(message.channel, embed=embed)
                         count = count + 1
                     elif count == maximum_targets:
-                        targets_for_person = list_of_targets[4 * count:(4 * count) + remainder]
+                        targets_for_person = list_of_targets[max_assigned * count:(max_assigned * count) + remainder]
                         embed = discord.Embed(
                             title="Targets for " + name,
-                            description=str(len(targets_for_person)) + "/4 targets shown.",
+                            description=str(len(targets_for_person)) + "/"+str(max_assigned) + " targets shown.",
                             colour=random.randint(0, 0xffffff)
                         )
                         if len(targets_for_person) != 0:
@@ -346,17 +348,17 @@ async def on_message(message):
                 list_of_names = grouped[3:]
                 list_of_targets = collect_sorted_targets(grouped[1], grouped[2], SERVER.PGAW)
 
-                maximum_targets = math.floor(len(list_of_targets) / 6)
-                remainder = len(list_of_targets) % 6
+                maximum_targets = math.floor(len(list_of_targets) / max_assigned)
+                remainder = len(list_of_targets) % max_assigned
                 count = 0
 
                 for name in list_of_names:
                     list_of_crap = []
                     if count < maximum_targets:
-                        targets_for_person = list_of_targets[6 * count:(6 * count) + 6]
+                        targets_for_person = list_of_targets[max_assigned * count:(max_assigned * count) + max_assigned]
                         embed = discord.Embed(
                             title="Targets for " + name,
-                            description=str(len(targets_for_person)) + "/4 targets shown.",
+                            description=str(len(targets_for_person)) + "/"+str(max_assigned) + " targets shown.",
                             colour=random.randint(0, 0xffffff)
                         )
                         for bogey in targets_for_person:
@@ -373,10 +375,10 @@ async def on_message(message):
                         await client.send_message(message.channel, embed=embed)
                         count = count + 1
                     elif count == maximum_targets:
-                        targets_for_person = list_of_targets[6 * count:(6 * count) + remainder]
+                        targets_for_person = list_of_targets[max_assigned * count:(max_assigned * count) + remainder]
                         embed = discord.Embed(
                             title="Targets for " + name,
-                            description=str(len(targets_for_person)) + "/4 targets shown.",
+                            description=str(len(targets_for_person)) + "/"+str(max_assigned)+" targets shown.",
                             colour=random.randint(0, 0xffffff)
                         )
                         if len(targets_for_person) != 0:
@@ -442,14 +444,14 @@ async def on_message(message):
                 list_of_names = grouped[3:]
                 list_of_targets = collect_sorted_targets(grouped[1], grouped[2], SERVER.CVW)
 
-                maximum_targets = math.floor(len(list_of_targets) / 4)
-                remainder = len(list_of_targets) % 4
+                maximum_targets = math.floor(len(list_of_targets) / max_assigned)
+                remainder = len(list_of_targets) % max_assigned
                 count = 0
 
                 for name in list_of_names:
                     list_of_crap = []
                     if count < maximum_targets:
-                        targets_for_person = list_of_targets[4 * count:(4 * count) + 4]
+                        targets_for_person = list_of_targets[max_assigned * count:(max_assigned * count) + max_assigned]
                         embed = discord.Embed(
                             title="Targets for " + name,
                             description=str(len(targets_for_person)) + "/4 targets shown.",
@@ -469,10 +471,10 @@ async def on_message(message):
                         await client.send_message(message.channel, embed=embed)
                         count = count + 1
                     elif count == maximum_targets:
-                        targets_for_person = list_of_targets[4 * count:(4 * count) + remainder]
+                        targets_for_person = list_of_targets[max_assigned * count:(max_assigned * count) + remainder]
                         embed = discord.Embed(
                             title="Targets for " + name,
-                            description=str(len(targets_for_person)) + "/4 targets shown.",
+                            description=str(len(targets_for_person)) + "/"+str(max_assigned)+" targets shown.",
                             colour=random.randint(0, 0xffffff)
                         )
                         if len(targets_for_person) != 0:
