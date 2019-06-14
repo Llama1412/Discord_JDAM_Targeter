@@ -9,7 +9,7 @@ with open("config.json") as config:
     token = data["token"]
 client = discord.Client()
 
-max_assigned = 6
+max_assigned = 4
 
 
 def calc_time_restart(uptime):
