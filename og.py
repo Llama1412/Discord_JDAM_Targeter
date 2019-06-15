@@ -97,6 +97,7 @@ threats = {
     "T-55": THREAT.NONE,
     "Grad-URAL": THREAT.NONE,
     "Land_Rover_101_FC": THREAT.NONE,
+    "Infantry AK Ins": THREAT.NONE,
 
     "house2arm": THREAT.STATIC,
     "outpost_road": THREAT.STATIC,
