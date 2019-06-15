@@ -9,7 +9,7 @@ with open("config.json") as config:
     token = data["token"]
 client = discord.Client()
 
-max_assigned = 8
+max_assigned = 4
 
 
 def calc_time_restart(uptime):
@@ -123,6 +123,14 @@ async def on_message(message):
         print(message.author.name + ": " + message.content)
     if message.author == client.user:
         return
+
+    elif message.content.lower().startswith("limit"):
+        try:
+            number = int(message.content.split(" ")[1])
+            max_assigned = number
+        except:
+            msg = "That isn't a valid number."
+            await client.send_message(message.channel, msg)
 
     elif message.content.lower().startswith("help"):
         embed = discord.Embed(
