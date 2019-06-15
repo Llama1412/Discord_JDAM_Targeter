@@ -125,9 +125,12 @@ async def on_message(message):
         return
 
     elif message.content.lower().startswith("limit"):
+        global max_assigned
         try:
             number = int(message.content.split(" ")[1])
             max_assigned = number
+            msg = "Maximum targets changed to " + str(number) + "."
+            await client.send_message(message.channel, msg)
         except:
             msg = "That isn't a valid number."
             await client.send_message(message.channel, msg)
@@ -302,9 +305,9 @@ async def on_message(message):
                                                 inline=True)
                                 list_of_crap.append(
                                     bogey.lat_raw + "\n" + bogey.lon_raw + "\n" + str(round(bogey.Elev)) + "\n")
-                            #embed.add_field(name="Michae1s",
-                             #               value="".join(list_of_crap),
-                              #              inline=True)
+                            # embed.add_field(name="Michae1s",
+                            #               value="".join(list_of_crap),
+                            #              inline=True)
                             await client.send_message(message.channel, embed=embed)
                         count = count + 1
 
