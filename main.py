@@ -148,7 +148,8 @@ async def on_message(message):
                         value="Looks up the target user and returns the nearest group of enemies to them.")
         embed.add_field(name="list [gaw/pgaw/cvw]",
                         value="Prints a list of all users on the selected server and which aircraft they are flying.")
-
+        embed.add_field(name="limit [number]",
+                        value="Changes the limit of targets assigned per person.")
         embed.add_field(name="help",
                         value="Shows this menu.")
         await client.send_message(message.channel, embed=embed)
