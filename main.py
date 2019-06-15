@@ -9,7 +9,7 @@ with open("config.json") as config:
     token = data["token"]
 client = discord.Client()
 
-max_assigned = 4
+max_assigned = 8
 
 
 def calc_time_restart(uptime):
@@ -273,16 +273,16 @@ async def on_message(message):
                             list_of_crap.append(
                                 bogey.lat_raw + "\n" + bogey.lon_raw + "\n" + str(round(bogey.Elev)) + "\n")
 
-                        embed.add_field(name="Michae1s",
-                                        value="".join(list_of_crap),
-                                        inline=True)
+                        # embed.add_field(name="Michae1s",
+                        #               value="".join(list_of_crap),
+                        #              inline=True)
                         await client.send_message(message.channel, embed=embed)
                         count = count + 1
                     elif count == maximum_targets:
                         targets_for_person = list_of_targets[max_assigned * count:(max_assigned * count) + remainder]
                         embed = discord.Embed(
                             title="Targets for " + name,
-                            description=str(len(targets_for_person)) + "/"+str(max_assigned) + " targets shown.",
+                            description=str(len(targets_for_person)) + "/" + str(max_assigned) + " targets shown.",
                             colour=random.randint(0, 0xffffff)
                         )
                         if len(targets_for_person) != 0:
@@ -294,9 +294,9 @@ async def on_message(message):
                                                 inline=True)
                                 list_of_crap.append(
                                     bogey.lat_raw + "\n" + bogey.lon_raw + "\n" + str(round(bogey.Elev)) + "\n")
-                            embed.add_field(name="Michae1s",
-                                            value="".join(list_of_crap),
-                                            inline=True)
+                            #embed.add_field(name="Michae1s",
+                             #               value="".join(list_of_crap),
+                              #              inline=True)
                             await client.send_message(message.channel, embed=embed)
                         count = count + 1
 
@@ -358,7 +358,7 @@ async def on_message(message):
                         targets_for_person = list_of_targets[max_assigned * count:(max_assigned * count) + max_assigned]
                         embed = discord.Embed(
                             title="Targets for " + name,
-                            description=str(len(targets_for_person)) + "/"+str(max_assigned) + " targets shown.",
+                            description=str(len(targets_for_person)) + "/" + str(max_assigned) + " targets shown.",
                             colour=random.randint(0, 0xffffff)
                         )
                         for bogey in targets_for_person:
@@ -369,16 +369,16 @@ async def on_message(message):
                             list_of_crap.append(
                                 bogey.lat_raw + "\n" + bogey.lon_raw + "\n" + str(round(bogey.Elev)) + "\n")
 
-                        embed.add_field(name="Michae1s",
-                                        value="".join(list_of_crap),
-                                        inline=True)
+                        # embed.add_field(name="Michae1s",
+                        #                 value="".join(list_of_crap),
+                        #                 inline=True)
                         await client.send_message(message.channel, embed=embed)
                         count = count + 1
                     elif count == maximum_targets:
                         targets_for_person = list_of_targets[max_assigned * count:(max_assigned * count) + remainder]
                         embed = discord.Embed(
                             title="Targets for " + name,
-                            description=str(len(targets_for_person)) + "/"+str(max_assigned)+" targets shown.",
+                            description=str(len(targets_for_person)) + "/" + str(max_assigned) + " targets shown.",
                             colour=random.randint(0, 0xffffff)
                         )
                         if len(targets_for_person) != 0:
@@ -390,9 +390,9 @@ async def on_message(message):
                                                 inline=True)
                                 list_of_crap.append(
                                     bogey.lat_raw + "\n" + bogey.lon_raw + "\n" + str(round(bogey.Elev)) + "\n")
-                            embed.add_field(name="Michae1s",
-                                            value="".join(list_of_crap),
-                                            inline=True)
+                            # embed.add_field(name="Michae1s",
+                            #                 value="".join(list_of_crap),
+                            #                 inline=True)
                             await client.send_message(message.channel, embed=embed)
                         count = count + 1
 
@@ -465,16 +465,16 @@ async def on_message(message):
                             list_of_crap.append(
                                 bogey.lat_raw + "\n" + bogey.lon_raw + "\n" + str(round(bogey.Elev)) + "\n")
 
-                        embed.add_field(name="Michae1s",
-                                        value="".join(list_of_crap),
-                                        inline=True)
+                        # embed.add_field(name="Michae1s",
+                        #                 value="".join(list_of_crap),
+                        #                 inline=True)
                         await client.send_message(message.channel, embed=embed)
                         count = count + 1
                     elif count == maximum_targets:
                         targets_for_person = list_of_targets[max_assigned * count:(max_assigned * count) + remainder]
                         embed = discord.Embed(
                             title="Targets for " + name,
-                            description=str(len(targets_for_person)) + "/"+str(max_assigned)+" targets shown.",
+                            description=str(len(targets_for_person)) + "/" + str(max_assigned) + " targets shown.",
                             colour=random.randint(0, 0xffffff)
                         )
                         if len(targets_for_person) != 0:
@@ -486,9 +486,9 @@ async def on_message(message):
                                                 inline=True)
                                 list_of_crap.append(
                                     bogey.lat_raw + "\n" + bogey.lon_raw + "\n" + str(round(bogey.Elev)) + "\n")
-                            embed.add_field(name="Michae1s",
-                                            value="".join(list_of_crap),
-                                            inline=True)
+                            # embed.add_field(name="Michae1s",
+                            #                 value="".join(list_of_crap),
+                            #                 inline=True)
                             await client.send_message(message.channel, embed=embed)
                         count = count + 1
 
