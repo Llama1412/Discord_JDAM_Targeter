@@ -54,7 +54,11 @@ threats = {
     "SNR_75V": THREAT.HIGH,
     "rapier_fsa_blindfire_radar": THREAT.HIGH,
     "rapier_fsa_launcher": THREAT.HIGH,
-    "rapier_fsa_optical_tracker_unit": THREAT.HIGH,
+    "Hawk cwar": THREAT.HIGH,
+    "Hawk pcp": THREAT.HIGH,
+    "Hawk sr": THREAT.HIGH,
+    "Hawk tr": THREAT.HIGH,
+    "Hawk ln": THREAT.HIGH,
 
     "SA-18 Igla-S manpad": THREAT.MEDIUM,
 
@@ -63,6 +67,7 @@ threats = {
     "ZU-23 Emplacement": THREAT.LOW,
     "ZSU-23-4 Shilka": THREAT.LOW,
     "Ural-375 ZU-23 Insurgent": THREAT.LOW,
+    "ZU-23 Closed Insurgent": THREAT.LOW,
 
     "BMP-1": THREAT.NONE,
     "BMD-1": THREAT.NONE,
@@ -90,6 +95,8 @@ threats = {
     "GAZ-66": THREAT.NONE,
     "GAZ-3308": THREAT.NONE,
     "T-55": THREAT.NONE,
+    "Grad-URAL": THREAT.NONE,
+    "Land_Rover_101_FC": THREAT.NONE,
 
     "house2arm": THREAT.STATIC,
     "outpost_road": THREAT.STATIC,
