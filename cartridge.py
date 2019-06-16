@@ -32,6 +32,7 @@ def create_cartridge(targets):
             count = 0
         my_station = stations[count]
         points.append(Point(bogey.lat_full, bogey.lon_full, bogey.Elev, bogey.Type, my_station).get())
+        count += 1
 
     my_list["waypoints"] = points
     with open('output.json', 'w') as json_file:
