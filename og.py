@@ -342,10 +342,11 @@ def get_targets(first_input, second_input, threat_level, server):
 
 
 class SITE:
-    def __init__(self, lat, lon, distance):
+    def __init__(self, lat, lon, distance, targets):
         self.lat = lat
         self.lon = lon
         self.dist = distance
+        self.targets = targets
 
 
 def locate_groups(server):
@@ -378,6 +379,11 @@ def locate_groups(server):
     return cluster_centers
 
 
+def count_targets(coords, server):
+    amount = len(collect_sorted_targets(coords[0], coords[1], server))
+    return amount
+
+
 def get_coords(name, server):
     try:
         with urllib.request.urlopen(server) as url:
@@ -397,10 +403,13 @@ def get_closest_site(coords, server):
     coords_list = locate_groups(server)
     for group in coords_list:
         calculated_distance = geopy.distance.distance(coords, group).nm
-        sites.append(SITE(group[0], group[1], calculated_distance))
+        count = count_targets(group, server)
+        sites.append(SITE(group[0], group[1], calculated_distance, count))
 
     sorted_sites_list = sorted(sites, key=lambda x: x.dist)
-    return sorted_sites_list[0]
+    if len(sorted_sites_list) > 10:
+        sorted_sites_list = sorted_sites_list[:9]
+    return sorted_sites_list
 
 
 def convert_position(latitude, longitude):

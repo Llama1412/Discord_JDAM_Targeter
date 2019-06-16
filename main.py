@@ -189,67 +189,35 @@ async def on_message(message):
                 servername) + "```\n" + str(y) + "\n```\n Time until restart:   " + str(ttr)
             await client.send_message(message.channel, msg)
 
-    elif message.content.lower().startswith("pgaw lookup"):
+    elif message.content.lower().split(" ")[1] is "lookup":
+        servername = message.content.lower().split(" ")[0]
+        server = ""
+        if servername is "pgaw":
+            server = SERVER.PGAW
+        elif servername is "gaw":
+            server = SERVER.GAW
+        elif servername is "cvw":
+            server = SERVER.CVW
+
         splitup = message.content.split(" ")
         name = " ".join(splitup[2:])
         print("Triggered lookup for " + str(name))
-        name_coords = get_coords(name, SERVER.PGAW)
+        name_coords = get_coords(name, server)
 
         if name_coords == "error":
             await client.send_message(message.channel, name + " isn't a user in the server.")
 
         else:
-            closest_site = get_closest_site(name_coords, SERVER.PGAW)
-
-            final_lat, final_lon = convert_position(closest_site.lat, closest_site.lon)
+            closest_sites = get_closest_site(name_coords, server)
             embed = discord.Embed(
-                title="Closest enemy site for " + str(name),
+                title="Closest enemy sites for " + str(name),
                 colour=random.randint(0, 0xffffff)
             )
-            embed.add_field(name="Range: " + str(round(closest_site.dist, 2)) + "nm",
-                            value="Lat:   " + str(final_lat) + "\nLon:   " + str(final_lon))
-            await client.send_message(message.channel, embed=embed)
-
-    elif message.content.lower().startswith("gaw lookup"):
-        splitup = message.content.split(" ")
-        name = " ".join(splitup[2:])
-        print("Triggered lookup for " + str(name))
-        name_coords = get_coords(name, SERVER.GAW)
-
-        if name_coords == "error":
-            await client.send_message(message.channel, name + " isn't a user in the server.")
-
-        else:
-            closest_site = get_closest_site(name_coords, SERVER.GAW)
-
-            final_lat, final_lon = convert_position(closest_site.lat, closest_site.lon)
-            embed = discord.Embed(
-                title="Closest enemy site for " + str(name),
-                colour=random.randint(0, 0xffffff)
-            )
-            embed.add_field(name="Range: " + str(round(closest_site.dist, 2)) + "nm",
-                            value="Lat:   " + str(final_lat) + "\nLon:   " + str(final_lon))
-            await client.send_message(message.channel, embed=embed)
-
-    elif message.content.lower().startswith("cvw lookup"):
-        splitup = message.content.split(" ")
-        name = " ".join(splitup[2:])
-        print("Triggered lookup for " + str(name))
-        name_coords = get_coords(name, SERVER.CVW)
-
-        if name_coords == "error":
-            await client.send_message(message.channel, name + " isn't a user in the server.")
-
-        else:
-            closest_site = get_closest_site(name_coords, SERVER.CVW)
-
-            final_lat, final_lon = convert_position(closest_site.lat, closest_site.lon)
-            embed = discord.Embed(
-                title="Closest enemy site for " + str(name),
-                colour=random.randint(0, 0xffffff)
-            )
-            embed.add_field(name="Range: " + str(round(closest_site.dist, 2)) + "nm",
-                            value="Lat:   " + str(final_lat) + "\nLon:   " + str(final_lon))
+            for site in closest_sites:
+                final_lat, final_lon = convert_position(site.lat, site.lon)
+                embed.add_field(name="Range: " + str(round(site.dist, 2)) + "nm",
+                                value="Lat:   " + str(final_lat) + "\nLon:   " + str(
+                                    final_lon) + "\n" + site.targets + " targets.")
             await client.send_message(message.channel, embed=embed)
 
     elif message.content.lower().startswith("gaw"):
@@ -475,7 +443,7 @@ async def on_message(message):
                         targets_for_person = list_of_targets[max_assigned * count:(max_assigned * count) + max_assigned]
                         embed = discord.Embed(
                             title="Targets for " + name,
-                            description=str(len(targets_for_person)) + "/"+str(max_assigned)+" targets shown.",
+                            description=str(len(targets_for_person)) + "/" + str(max_assigned) + " targets shown.",
                             colour=random.randint(0, 0xffffff)
                         )
                         for bogey in targets_for_person:
