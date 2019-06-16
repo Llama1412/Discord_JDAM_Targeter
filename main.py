@@ -132,7 +132,7 @@ async def on_message(message):
         try:
             words = int(split[1])
             syl = int(split[2])
-            await client.send_file(message.channel, fp="banner.png")
+            # await client.send_file(message.channel, fp="banner.png")
             msg = name_creator(words, syl)
             await client.send_message(message.channel, msg)
         except ValueError:
