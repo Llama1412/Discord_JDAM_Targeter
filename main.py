@@ -116,7 +116,7 @@ def check_if_assign(message):
 async def on_ready():
     print("Logged in as " + client.user.name)
     msg = "Online!"
-    await client.send_message(discord.Object(567790651983527936), msg)
+    await client.send_message(discord.Object(589952357488525332), msg)
     return
 
 
@@ -538,4 +538,4 @@ async def on_message(message):
                                               content="There were no targets detected within 5nm of that point.")
 
 
-client.run(token, bot=False)
+client.run(token)
