@@ -4,6 +4,7 @@ from og import *
 from prettytable import PrettyTable
 import datetime
 from cartridge import *
+from rick import *
 
 with open("config.json") as config:
     data = json.load(config)
@@ -126,6 +127,12 @@ async def on_message(message):
         print(message.author.name + ": " + message.content)
     if message.author == client.user:
         return
+    if message.content.lower.startswith("rick"):
+        split = message.content.split(" ")
+        words = split[1]
+        syl = split[2]
+        msg = name_creator(words, syl)
+        await client.send_message(message.channel, msg)
 
     elif message.content.lower().startswith("limit"):
         global max_assigned
@@ -153,6 +160,8 @@ async def on_message(message):
                         value="Prints a list of all users on the selected server and which aircraft they are flying.")
         embed.add_field(name="limit [number]",
                         value="Changes the limit of targets assigned per person.")
+        embed.add_field(name="rick [no of words] [no of syllables]",
+                        value="Literal autism.")
         embed.add_field(name="help",
                         value="Shows this menu.")
         await client.send_message(message.channel, embed=embed)
