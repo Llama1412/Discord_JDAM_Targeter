@@ -19,6 +19,16 @@ class Point:
                   "station": self.station}
         return output
 
+    def get_wp(self):
+        output = {"latitude": self.latitude,
+                  "longitude": self.longitude,
+                  "elevation": self.elevation,
+                  "name": "Waypoint",
+                  "sequence": 0,
+                  "wp_type": "WP",
+                  "station": 0}
+        return output
+
 
 def create_cartridge(targets):
     my_list = {"waypoints": [],
@@ -27,6 +37,7 @@ def create_cartridge(targets):
     stations = [2, 3, 7, 8]
     points = []
     count = 0
+    points.append(Point(targets[0].lat_full, targets[0].lon_full, targets[0].Elev, targets[0].Type, 0).get_wp())
     for bogey in targets:
         if count is 4:
             count = 0
