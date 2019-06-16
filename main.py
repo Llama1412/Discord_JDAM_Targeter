@@ -114,6 +114,8 @@ def check_if_assign(message):
 @client.event
 async def on_ready():
     print("Logged in as " + client.user.name)
+    msg = "Online!"
+    await client.send_message(discord.Object(567790651983527936), msg)
     return
 
 
