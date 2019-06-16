@@ -164,8 +164,6 @@ async def on_message(message):
                         value="Prints a list of all users on the selected server and which aircraft they are flying.")
         embed.add_field(name="limit [number]",
                         value="Changes the limit of targets assigned per person.")
-        embed.add_field(name="rick [no of words] [no of syllables]",
-                        value="Literal autism.")
         embed.add_field(name="help",
                         value="Shows this menu.")
         await client.send_message(message.channel, embed=embed)
