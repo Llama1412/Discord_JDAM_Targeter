@@ -3,6 +3,7 @@ import discord
 from og import *
 from prettytable import PrettyTable
 import datetime
+from cartridge import *
 
 with open("config.json") as config:
     data = json.load(config)
@@ -289,6 +290,8 @@ async def on_message(message):
                         #               value="".join(list_of_crap),
                         #              inline=True)
                         await client.send_message(message.channel, embed=embed)
+                        create_cartridge(targets_for_person)
+                        await client.send_file(message.channel, open("output.json", "r+"), filename="output.json")
                         count = count + 1
                     elif count == maximum_targets:
                         targets_for_person = list_of_targets[max_assigned * count:(max_assigned * count) + remainder]
@@ -310,6 +313,8 @@ async def on_message(message):
                             #               value="".join(list_of_crap),
                             #              inline=True)
                             await client.send_message(message.channel, embed=embed)
+                            create_cartridge(targets_for_person)
+                            await client.send_file(message.channel, open("output.json", "r+"), filename="output.json")
                         count = count + 1
 
             else:
@@ -385,6 +390,8 @@ async def on_message(message):
                         #                 value="".join(list_of_crap),
                         #                 inline=True)
                         await client.send_message(message.channel, embed=embed)
+                        create_cartridge(targets_for_person)
+                        await client.send_file(message.channel, open("output.json", "r+"), filename="output.json")
                         count = count + 1
                     elif count == maximum_targets:
                         targets_for_person = list_of_targets[max_assigned * count:(max_assigned * count) + remainder]
@@ -406,6 +413,8 @@ async def on_message(message):
                             #                 value="".join(list_of_crap),
                             #                 inline=True)
                             await client.send_message(message.channel, embed=embed)
+                            create_cartridge(targets_for_person)
+                            await client.send_file(message.channel, open("output.json", "r+"), filename="output.json")
                         count = count + 1
 
             else:
@@ -466,7 +475,7 @@ async def on_message(message):
                         targets_for_person = list_of_targets[max_assigned * count:(max_assigned * count) + max_assigned]
                         embed = discord.Embed(
                             title="Targets for " + name,
-                            description=str(len(targets_for_person)) + "/4 targets shown.",
+                            description=str(len(targets_for_person)) + "/"+str(max_assigned)+" targets shown.",
                             colour=random.randint(0, 0xffffff)
                         )
                         for bogey in targets_for_person:
@@ -481,6 +490,8 @@ async def on_message(message):
                         #                 value="".join(list_of_crap),
                         #                 inline=True)
                         await client.send_message(message.channel, embed=embed)
+                        create_cartridge(targets_for_person)
+                        await client.send_file(message.channel, open("output.json", "r+"), filename="output.json")
                         count = count + 1
                     elif count == maximum_targets:
                         targets_for_person = list_of_targets[max_assigned * count:(max_assigned * count) + remainder]
@@ -502,6 +513,8 @@ async def on_message(message):
                             #                 value="".join(list_of_crap),
                             #                 inline=True)
                             await client.send_message(message.channel, embed=embed)
+                            create_cartridge(targets_for_person)
+                            await client.send_file(message.channel, open("output.json", "r+"), filename="output.json")
                         count = count + 1
 
             else:
