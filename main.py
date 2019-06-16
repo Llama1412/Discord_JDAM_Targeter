@@ -127,12 +127,16 @@ async def on_message(message):
         print(message.author.name + ": " + message.content)
     if message.author == client.user:
         return
-    if message.content.lower.startswith("rick"):
+    elif message.content.lower().startswith("rick"):
         split = message.content.split(" ")
-        words = split[1]
-        syl = split[2]
-        msg = name_creator(words, syl)
-        await client.send_message(message.channel, msg)
+        try:
+            words = int(split[1])
+            syl = int(split[2])
+            await client.send_file(message.channel, fp="banner.png")
+            msg = name_creator(words, syl)
+            await client.send_message(message.channel, msg)
+        except ValueError:
+            await client.send_message(message.channel, "Those numbers weren't legit, bud.")
 
     elif message.content.lower().startswith("limit"):
         global max_assigned

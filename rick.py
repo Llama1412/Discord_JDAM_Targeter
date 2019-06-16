@@ -16,6 +16,6 @@ def generate_name(syllables):
 
 def name_creator(wordcount, syllables):
     names = ""
-    for i in range(wordcount):
+    for i in range(int(wordcount)):
         names = names + " " + generate_name(syllables)
     return names
