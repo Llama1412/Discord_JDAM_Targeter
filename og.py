@@ -167,15 +167,23 @@ max_range = 5
 
 def collect_sorted_targets(first_input, second_input, server):
     target_list = []
-    lat_deg = int(first_input[0:2])
-    lat_min = int(first_input[2:4])
-    lat_sec = int(first_input[4:6])
-    lat_final = float(lat_deg + (lat_min * (1 / 60)) + (lat_sec * (1 / 3600)))
+    try:
+        if len(first_input) is 6 and len(second_input) is 6:
+            lat_deg = int(first_input[0:2])
+            lat_min = int(first_input[2:4])
+            lat_sec = int(first_input[4:6])
+            lat_final = float(lat_deg + (lat_min * (1 / 60)) + (lat_sec * (1 / 3600)))
 
-    lon_deg = int(second_input[0:2])
-    lon_min = int(second_input[2:4])
-    lon_sec = int(second_input[4:6])
-    lon_final = float(lon_deg + (lon_min * (1 / 60)) + (lon_sec * (1 / 3600)))
+            lon_deg = int(second_input[0:2])
+            lon_min = int(second_input[2:4])
+            lon_sec = int(second_input[4:6])
+            lon_final = float(lon_deg + (lon_min * (1 / 60)) + (lon_sec * (1 / 3600)))
+        else:
+            lat_final = first_input
+            lon_final = second_input
+    except TypeError:
+        lat_final = first_input
+        lon_final = second_input
 
     with urllib.request.urlopen(server) as url:
         data = json.loads(url.read().decode())

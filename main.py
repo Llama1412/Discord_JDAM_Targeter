@@ -189,19 +189,20 @@ async def on_message(message):
                 servername) + "```\n" + str(y) + "\n```\n Time until restart:   " + str(ttr)
             await client.send_message(message.channel, msg)
 
-    elif message.content.lower().split(" ")[1] is "lookup":
+    elif message.content.lower().split(" ")[1].startswith("lookup"):
+
         servername = message.content.lower().split(" ")[0]
         server = ""
-        if servername is "pgaw":
+        if servername == "pgaw":
             server = SERVER.PGAW
-        elif servername is "gaw":
+        elif servername == "gaw":
             server = SERVER.GAW
-        elif servername is "cvw":
+        elif servername == "cvw":
             server = SERVER.CVW
 
         splitup = message.content.split(" ")
         name = " ".join(splitup[2:])
-        print("Triggered lookup for " + str(name))
+        await client.send_message(message.channel, "Searching for sites near " + str(name))
         name_coords = get_coords(name, server)
 
         if name_coords == "error":
@@ -217,7 +218,7 @@ async def on_message(message):
                 final_lat, final_lon = convert_position(site.lat, site.lon)
                 embed.add_field(name="Range: " + str(round(site.dist, 2)) + "nm",
                                 value="Lat:   " + str(final_lat) + "\nLon:   " + str(
-                                    final_lon) + "\n" + site.targets + " targets.")
+                                    final_lon) + "\n" + str(site.targets) + " targets.")
             await client.send_message(message.channel, embed=embed)
 
     elif message.content.lower().startswith("gaw"):
@@ -320,7 +321,7 @@ async def on_message(message):
                 if any_targets is False:
                     await client.send_message(message.channel,
                                               content="There were no targets detected within 5nm of that point.")
-    elif message.content.lower().startswith("pg"):
+    elif message.content.lower().startswith("pgaw"):
         if check_valid(message):
             if check_if_assign(message) == "names":
                 grouped = message.content.split(" ")
