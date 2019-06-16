@@ -54,6 +54,7 @@ threats = {
     "SNR_75V": THREAT.HIGH,
     "rapier_fsa_blindfire_radar": THREAT.HIGH,
     "rapier_fsa_launcher": THREAT.HIGH,
+    "rapier_fsa_optical_tracker_unit": THREAT.HIGH,
     "Hawk cwar": THREAT.HIGH,
     "Hawk pcp": THREAT.HIGH,
     "Hawk sr": THREAT.HIGH,

@@ -202,7 +202,7 @@ async def on_message(message):
 
         splitup = message.content.split(" ")
         name = " ".join(splitup[2:])
-        await client.send_message(message.channel, "Searching for sites near " + str(name))
+        await client.send_message(message.channel, "Searching for sites near " + str(name)+str("."))
         name_coords = get_coords(name, server)
 
         if name_coords == "error":
