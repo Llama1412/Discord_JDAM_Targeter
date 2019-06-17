@@ -222,13 +222,14 @@ async def on_message(message):
 
             splitup = message.content.split(" ")
             name = " ".join(splitup[2:])
-            await client.send_message(message.channel, "Searching for sites near " + str(name)+str("."))
-            name_coords = get_coords(name, server)
+
+            name_coords, target_name = get_coords(name, server)
 
             if name_coords == "error":
                 await client.send_message(message.channel, name + " isn't a user in the server.")
 
             else:
+                await client.send_message(message.channel, "Searching for sites near " + str(target_name) + str("."))
                 closest_sites = get_closest_site(name_coords, server)
                 embed = discord.Embed(
                     title="Closest enemy sites for " + str(name),

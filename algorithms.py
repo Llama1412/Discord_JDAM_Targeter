@@ -399,10 +399,11 @@ def get_coords(name, server):
             data = json.loads(url.read().decode())
             for i in range(len(data["objects"])):
                 if data["objects"][i]["Flags"]["Human"]:
-                    if data["objects"][i]["UnitName"] == name:
+                    if name.lower() in data["objects"][i]["UnitName"].lower():
+                        target_name = data["objects"][i]["UnitName"]
                         my_lat = data["objects"][i]["LatLongAlt"]["Lat"]
                         my_lon = data["objects"][i]["LatLongAlt"]["Long"]
-        return [my_lat, my_lon]
+        return [my_lat, my_lon], target_name
     except UnboundLocalError:
         return "error"
 
