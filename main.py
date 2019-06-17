@@ -1,5 +1,5 @@
 import datetime
-
+import os
 import discord
 from prettytable import PrettyTable
 
@@ -7,9 +7,7 @@ from algorithms import *
 from cartridge import *
 from rick import *
 
-with open("config.json") as config:
-    data = json.load(config)
-    token = data["token"]
+token = os.getenv("discord_token")
 client = discord.Client()
 
 max_assigned = 4
