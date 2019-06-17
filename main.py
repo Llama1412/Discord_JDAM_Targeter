@@ -7,7 +7,11 @@ from algorithms import *
 from cartridge import *
 from rick import *
 
-token = os.getenv("discord_token")
+token = os.getenv("discord_token", False)
+local = False
+if token is False:
+    token = "NTkwMjM2ODU0OTEwMDU4NDk3.XQfTLQ.BXMib6PVogSX8PN0A3jfRdyiuuo"
+    local = True
 client = discord.Client()
 
 max_assigned = 4
@@ -115,7 +119,10 @@ def check_if_assign(message):
 async def on_ready():
     print("Logged in as " + client.user.name)
     msg = "Online!"
-    await client.send_message(discord.Object(589952357488525332), msg)
+    if local is False:
+        await client.send_message(discord.Object(589952357488525332), msg)
+    else:
+        await client.send_message(discord.Object(590236753831657480), msg)
     return
 
 
