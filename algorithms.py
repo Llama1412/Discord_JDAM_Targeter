@@ -351,11 +351,14 @@ def get_targets(first_input, second_input, threat_level, server):
 
 
 class SITE:
-    def __init__(self, lat, lon, distance, targets):
+    def __init__(self, lat, lon, distance):
         self.lat = lat
         self.lon = lon
         self.dist = distance
-        self.targets = targets
+        self.targets = 0
+
+    def set_targets(self, count):
+        self.targets = count
 
 
 def locate_groups(server):
@@ -413,13 +416,18 @@ def get_closest_site(coords, server):
     coords_list = locate_groups(server)
     for group in coords_list:
         calculated_distance = geopy.distance.distance(coords, group).nm
-        count = count_targets(group, server)
-        sites.append(SITE(group[0], group[1], calculated_distance, count))
-
+        sites.append(SITE(group[0], group[1], calculated_distance))
     sorted_sites_list = sorted(sites, key=lambda x: x.dist)
-    if len(sorted_sites_list) > 10:
+    if len(sorted_sites_list) > 9:
         sorted_sites_list = sorted_sites_list[:9]
-    return sorted_sites_list
+    final_sites = []
+    for group in sorted_sites_list:
+        count = count_targets([group.lat, group.lon], server)
+        edited = group
+        edited.set_targets(count)
+        final_sites.append(edited)
+
+    return final_sites
 
 
 def convert_position(latitude, longitude):

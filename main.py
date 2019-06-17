@@ -210,7 +210,6 @@ async def on_message(message):
                 await client.send_message(message.channel, msg)
 
         elif message.content.lower().split(" ")[1].startswith("lookup"):
-
             servername = message.content.lower().split(" ")[0]
             server = ""
             if servername == "pgaw":
