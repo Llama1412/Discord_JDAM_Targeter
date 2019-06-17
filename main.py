@@ -1,8 +1,9 @@
-import random
-import discord
-from og import *
-from prettytable import PrettyTable
 import datetime
+
+import discord
+from prettytable import PrettyTable
+
+from algorithms import *
 from cartridge import *
 from rick import *
 

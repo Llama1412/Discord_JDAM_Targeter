@@ -1,5 +1,7 @@
 import random
 
+# This is an easter egg made by Schlumpy
+
 combos = ["grum", "flub", "choob", "flib", "shnub", "grup", "bop", "flark", "shnip", "frik", "frork", "frum", "glub",
           "gloob", "frumble", "pomple", "craks", "grooble", "shelm", "shleem", "grumbo", "dongle", "dangle", "fribble",
           "dibble", "dab", "dap", "frip", "shornk", "shrunk", "krenk", "kronk", "aloo", "alube", "broop", "brumble",
