@@ -146,7 +146,7 @@ async def on_message(message):
             max_assigned = number
             msg = "Maximum targets changed to " + str(number) + "."
             await client.send_message(message.channel, msg)
-        except:
+        except TypeError:
             msg = "That isn't a valid number."
             await client.send_message(message.channel, msg)
 

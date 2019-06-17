@@ -23,6 +23,7 @@
       <option name="ignoredIdentifiers">
         <list>
           <option value="discord.message.Message.*" />
+          <option value="discord.client.Client.*" />
         </list>
       </option>
     </inspection_tool>
