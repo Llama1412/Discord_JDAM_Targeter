@@ -34,7 +34,7 @@ def create_cartridge(targets):
     my_list = {"waypoints": [],
                "name": "",
                "aircraft": "hornet"}
-    stations = [2, 3, 7, 8]
+    stations = [8, 2, 7, 3]
     points = []
     count = 0
     points.append(Point(targets[0].lat_full, targets[0].lon_full, targets[0].Elev, targets[0].Type, 0).get_wp())
