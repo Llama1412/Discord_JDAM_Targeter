@@ -554,10 +554,4 @@ async def on_message(message):
                         await client.send_message(message.channel,
                                                   content="There were no targets detected within 5nm of that point.")
 
-startup = True
-while startup:
-    try:
-        client.run(token)
-        startup = False
-    except:
-        pass
+client.run(token)
