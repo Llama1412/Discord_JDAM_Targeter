@@ -261,7 +261,8 @@ async def on_message(message):
                     for name in list_of_names:
                         list_of_crap = []
                         if count < maximum_targets:
-                            targets_for_person = list_of_targets[max_assigned * count:(max_assigned * count) + max_assigned]
+                            targets_for_person = list_of_targets[
+                                                 max_assigned * count:(max_assigned * count) + max_assigned]
                             embed = discord.Embed(
                                 title="Targets for " + name,
                                 description=str(len(targets_for_person)) + "/" + str(max_assigned) + " targets shown.",
@@ -270,7 +271,8 @@ async def on_message(message):
                             for bogey in targets_for_person:
                                 embed.add_field(name=bogey.Type,
                                                 value="Lat:   " + bogey.Lat + "\nLon:   " + bogey.Lon + "\nAlt:   " + str(
-                                                    round(bogey.Elev)) + "ft\nDist:   " + str(round(bogey.Dist, 4)) + "\n",
+                                                    round(bogey.Elev)) + "ft\nDist:   " + str(
+                                                    round(bogey.Dist, 4)) + "\n",
                                                 inline=True)
                                 list_of_crap.append(
                                     bogey.lat_raw + "\n" + bogey.lon_raw + "\n" + str(round(bogey.Elev)) + "\n")
@@ -283,7 +285,8 @@ async def on_message(message):
                             await client.send_file(message.channel, open("output.json", "r+"), filename="output.json")
                             count = count + 1
                         elif count == maximum_targets:
-                            targets_for_person = list_of_targets[max_assigned * count:(max_assigned * count) + remainder]
+                            targets_for_person = list_of_targets[
+                                                 max_assigned * count:(max_assigned * count) + remainder]
                             embed = discord.Embed(
                                 title="Targets for " + name,
                                 description=str(len(targets_for_person)) + "/" + str(max_assigned) + " targets shown.",
@@ -303,7 +306,8 @@ async def on_message(message):
                                 #              inline=True)
                                 await client.send_message(message.channel, embed=embed)
                                 create_cartridge(targets_for_person)
-                                await client.send_file(message.channel, open("output.json", "r+"), filename="output.json")
+                                await client.send_file(message.channel, open("output.json", "r+"),
+                                                       filename="output.json")
                             count = count + 1
 
                 else:
@@ -361,7 +365,8 @@ async def on_message(message):
                     for name in list_of_names:
                         list_of_crap = []
                         if count < maximum_targets:
-                            targets_for_person = list_of_targets[max_assigned * count:(max_assigned * count) + max_assigned]
+                            targets_for_person = list_of_targets[
+                                                 max_assigned * count:(max_assigned * count) + max_assigned]
                             embed = discord.Embed(
                                 title="Targets for " + name,
                                 description=str(len(targets_for_person)) + "/" + str(max_assigned) + " targets shown.",
@@ -370,7 +375,8 @@ async def on_message(message):
                             for bogey in targets_for_person:
                                 embed.add_field(name=bogey.Type,
                                                 value="Lat:   " + bogey.Lat + "\nLon:   " + bogey.Lon + "\nAlt:   " + str(
-                                                    round(bogey.Elev)) + "ft\nDist:   " + str(round(bogey.Dist, 4)) + "\n",
+                                                    round(bogey.Elev)) + "ft\nDist:   " + str(
+                                                    round(bogey.Dist, 4)) + "\n",
                                                 inline=True)
                                 list_of_crap.append(
                                     bogey.lat_raw + "\n" + bogey.lon_raw + "\n" + str(round(bogey.Elev)) + "\n")
@@ -383,7 +389,8 @@ async def on_message(message):
                             await client.send_file(message.channel, open("output.json", "r+"), filename="output.json")
                             count = count + 1
                         elif count == maximum_targets:
-                            targets_for_person = list_of_targets[max_assigned * count:(max_assigned * count) + remainder]
+                            targets_for_person = list_of_targets[
+                                                 max_assigned * count:(max_assigned * count) + remainder]
                             embed = discord.Embed(
                                 title="Targets for " + name,
                                 description=str(len(targets_for_person)) + "/" + str(max_assigned) + " targets shown.",
@@ -403,7 +410,8 @@ async def on_message(message):
                                 #                 inline=True)
                                 await client.send_message(message.channel, embed=embed)
                                 create_cartridge(targets_for_person)
-                                await client.send_file(message.channel, open("output.json", "r+"), filename="output.json")
+                                await client.send_file(message.channel, open("output.json", "r+"),
+                                                       filename="output.json")
                             count = count + 1
 
                 else:
@@ -461,7 +469,8 @@ async def on_message(message):
                     for name in list_of_names:
                         list_of_crap = []
                         if count < maximum_targets:
-                            targets_for_person = list_of_targets[max_assigned * count:(max_assigned * count) + max_assigned]
+                            targets_for_person = list_of_targets[
+                                                 max_assigned * count:(max_assigned * count) + max_assigned]
                             embed = discord.Embed(
                                 title="Targets for " + name,
                                 description=str(len(targets_for_person)) + "/" + str(max_assigned) + " targets shown.",
@@ -470,7 +479,8 @@ async def on_message(message):
                             for bogey in targets_for_person:
                                 embed.add_field(name=bogey.Type,
                                                 value="Lat:   " + bogey.Lat + "\nLon:   " + bogey.Lon + "\nAlt:   " + str(
-                                                    round(bogey.Elev)) + "ft\nDist:   " + str(round(bogey.Dist, 4)) + "\n",
+                                                    round(bogey.Elev)) + "ft\nDist:   " + str(
+                                                    round(bogey.Dist, 4)) + "\n",
                                                 inline=True)
                                 list_of_crap.append(
                                     bogey.lat_raw + "\n" + bogey.lon_raw + "\n" + str(round(bogey.Elev)) + "\n")
@@ -483,7 +493,8 @@ async def on_message(message):
                             await client.send_file(message.channel, open("output.json", "r+"), filename="output.json")
                             count = count + 1
                         elif count == maximum_targets:
-                            targets_for_person = list_of_targets[max_assigned * count:(max_assigned * count) + remainder]
+                            targets_for_person = list_of_targets[
+                                                 max_assigned * count:(max_assigned * count) + remainder]
                             embed = discord.Embed(
                                 title="Targets for " + name,
                                 description=str(len(targets_for_person)) + "/" + str(max_assigned) + " targets shown.",
@@ -503,7 +514,8 @@ async def on_message(message):
                                 #                 inline=True)
                                 await client.send_message(message.channel, embed=embed)
                                 create_cartridge(targets_for_person)
-                                await client.send_file(message.channel, open("output.json", "r+"), filename="output.json")
+                                await client.send_file(message.channel, open("output.json", "r+"),
+                                                       filename="output.json")
                             count = count + 1
 
                 else:
@@ -543,4 +555,11 @@ async def on_message(message):
                                                   content="There were no targets detected within 5nm of that point.")
 
 
-client.run(token)
+def runner():
+    try:
+        client.run(token)
+    except:
+        runner()
+
+
+runner()
