@@ -207,56 +207,57 @@ def collect_sorted_targets(first_input, second_input, server):
                         threat = THREAT.UNKNOWN
 
                 distance = geopy.distance.distance(target_pos, target_position).nm
-
-                lat_d = math.floor(latitude)
-                lat_m = math.floor((latitude - lat_d) * 60)
-                lat_s = round((latitude - lat_d - (lat_m / 60)) * 3600)
-                lat_ds = (round((latitude - lat_d - (lat_m / 60)) * 3600 * 100) / 100) - (
-                    round((latitude - lat_d - (lat_m / 60)) * 3600))
-                lat_ds = "{:05.2f}".format(lat_s + lat_ds)
-
-                if float(lat_ds) >= 60:
-                    lat_m = lat_m + 1
-                    lat_s = lat_s - 60
-                if float(lat_ds) < 0:
-                    lat_m = lat_m - 1
-                    lat_ds = lat_s + 60
-
-                if lat_m >= 60:
-                    lat_d = lat_d + 1
-                    lat_m = lat_m - 60
-                if float(lat_m) < 0:
-                    lat_d = lat_d - 1
-                    lat_m = lat_m + 60
-
-                lon_d = math.floor(longitude)
-                lon_m = math.floor((longitude - lon_d) * 60)
-                lon_s = round((longitude - lon_d - (lon_m / 60)) * 3600)
-                lon_ds = (round((longitude - lon_d - (lon_m / 60)) * 3600 * 100) / 100) - (
-                    round((longitude - lon_d - (lon_m / 60)) * 3600))
-                lon_ds = "{:05.2f}".format(lon_s + lon_ds)
-
-                if float(lon_ds) >= 60:
-                    lon_m = lon_m + 1
-                    lon_s = lon_s - 60
-                if float(lon_ds) <= 0:
-                    lon_m = lon_m - 1
-                    lon_ds = lon_s + 60
-
-                if lon_m >= 60:
-                    lon_d = lon_d + 1
-                    lon_m = lon_m - 60
-                if float(lon_m) < 0:
-                    lon_d = lon_d - 1
-                    lon_m = lon_m + 60
-
-                final_lat = str("{:02d}".format(lat_d)) + "°" + str("{:02d}".format(lat_m)) + "'" + str(lat_ds) + '"'
-                final_lon = str("{:02d}".format(lon_d)) + "°" + str("{:02d}".format(lon_m)) + "'" + str(lon_ds) + '"'
-
-                lat_raw = str("{:02d}".format(lat_d)) + str("{:02d}".format(lat_m)) + str(lat_ds)
-                lon_raw = str("{:02d}".format(lon_d)) + str("{:02d}".format(lon_m)) + str(lon_ds)
-
                 if distance <= max_range and threat is not False:
+                    lat_d = math.floor(latitude)
+                    lat_m = math.floor((latitude - lat_d) * 60)
+                    lat_s = round((latitude - lat_d - (lat_m / 60)) * 3600)
+                    lat_ds = (round((latitude - lat_d - (lat_m / 60)) * 3600 * 100) / 100) - (
+                        round((latitude - lat_d - (lat_m / 60)) * 3600))
+                    lat_ds = "{:05.2f}".format(lat_s + lat_ds)
+
+                    if float(lat_ds) >= 60:
+                        lat_m = lat_m + 1
+                        lat_s = lat_s - 60
+                    if float(lat_ds) < 0:
+                        lat_m = lat_m - 1
+                        lat_ds = lat_s + 60
+
+                    if lat_m >= 60:
+                        lat_d = lat_d + 1
+                        lat_m = lat_m - 60
+                    if float(lat_m) < 0:
+                        lat_d = lat_d - 1
+                        lat_m = lat_m + 60
+
+                    lon_d = math.floor(longitude)
+                    lon_m = math.floor((longitude - lon_d) * 60)
+                    lon_s = round((longitude - lon_d - (lon_m / 60)) * 3600)
+                    lon_ds = (round((longitude - lon_d - (lon_m / 60)) * 3600 * 100) / 100) - (
+                        round((longitude - lon_d - (lon_m / 60)) * 3600))
+                    lon_ds = "{:05.2f}".format(lon_s + lon_ds)
+
+                    if float(lon_ds) >= 60:
+                        lon_m = lon_m + 1
+                        lon_s = lon_s - 60
+                    if float(lon_ds) <= 0:
+                        lon_m = lon_m - 1
+                        lon_ds = lon_s + 60
+
+                    if lon_m >= 60:
+                        lon_d = lon_d + 1
+                        lon_m = lon_m - 60
+                    if float(lon_m) < 0:
+                        lon_d = lon_d - 1
+                        lon_m = lon_m + 60
+
+                    final_lat = str("{:02d}".format(lat_d)) + "°" + str("{:02d}".format(lat_m)) + "'" + str(
+                        lat_ds) + '"'
+                    final_lon = str("{:02d}".format(lon_d)) + "°" + str("{:02d}".format(lon_m)) + "'" + str(
+                        lon_ds) + '"'
+
+                    lat_raw = str("{:02d}".format(lat_d)) + str("{:02d}".format(lat_m)) + str(lat_ds)
+                    lon_raw = str("{:02d}".format(lon_d)) + str("{:02d}".format(lon_m)) + str(lon_ds)
+
                     target_list.append(BogeyC(enemy_type, final_lat, final_lon, altitude_feet, distance, threat,
                                               str(int(float(lat_raw) * 100)), str(int(float(lon_raw) * 100)), latitude,
                                               longitude))
@@ -298,52 +299,52 @@ def get_targets(first_input, second_input, threat_level, server):
                         threat = THREAT.UNKNOWN
 
                 distance = geopy.distance.distance(target_pos, target_position).nm
-
-                lat_d = math.floor(latitude)
-                lat_m = math.floor((latitude - lat_d) * 60)
-                lat_s = round((latitude - lat_d - (lat_m / 60)) * 3600)
-                lat_ds = (round((latitude - lat_d - (lat_m / 60)) * 3600 * 100) / 100) - (
-                    round((latitude - lat_d - (lat_m / 60)) * 3600))
-                lat_ds = "{:05.2f}".format(lat_s + lat_ds)
-
-                if float(lat_ds) >= 60:
-                    lat_m = lat_m + 1
-                    lat_s = lat_s - 60
-                if float(lat_ds) < 0:
-                    lat_m = lat_m - 1
-                    lat_ds = lat_s + 60
-
-                if lat_m >= 60:
-                    lat_d = lat_d + 1
-                    lat_m = lat_m - 60
-                if float(lat_m) < 0:
-                    lat_d = lat_d - 1
-                    lat_m = lat_m + 60
-
-                lon_d = math.floor(longitude)
-                lon_m = math.floor((longitude - lon_d) * 60)
-                lon_s = round((longitude - lon_d - (lon_m / 60)) * 3600)
-                lon_ds = (round((longitude - lon_d - (lon_m / 60)) * 3600 * 100) / 100) - (
-                    round((longitude - lon_d - (lon_m / 60)) * 3600))
-                lon_ds = "{:05.2f}".format(lon_s + lon_ds)
-
-                if float(lon_ds) >= 60:
-                    lon_m = lon_m + 1
-                    lon_s = lon_s - 60
-                if float(lon_ds) <= 0:
-                    lon_m = lon_m - 1
-                    lon_ds = lon_s + 60
-
-                if lon_m >= 60:
-                    lon_d = lon_d + 1
-                    lon_m = lon_m - 60
-                if float(lon_m) < 0:
-                    lon_d = lon_d - 1
-                    lon_m = lon_m + 60
-
-                final_lat = str("{:02d}".format(lat_d)) + "°" + str("{:02d}".format(lat_m)) + "'" + str(lat_ds) + '"'
-                final_lon = str("{:02d}".format(lon_d)) + "°" + str("{:02d}".format(lon_m)) + "'" + str(lon_ds) + '"'
                 if distance <= max_range and threat is not False and threat == threat_level:
+                    lat_d = math.floor(latitude)
+                    lat_m = math.floor((latitude - lat_d) * 60)
+                    lat_s = round((latitude - lat_d - (lat_m / 60)) * 3600)
+                    lat_ds = (round((latitude - lat_d - (lat_m / 60)) * 3600 * 100) / 100) - (
+                        round((latitude - lat_d - (lat_m / 60)) * 3600))
+                    lat_ds = "{:05.2f}".format(lat_s + lat_ds)
+
+                    if float(lat_ds) >= 60:
+                        lat_m = lat_m + 1
+                        lat_s = lat_s - 60
+                    if float(lat_ds) < 0:
+                        lat_m = lat_m - 1
+                        lat_ds = lat_s + 60
+
+                    if lat_m >= 60:
+                        lat_d = lat_d + 1
+                        lat_m = lat_m - 60
+                    if float(lat_m) < 0:
+                        lat_d = lat_d - 1
+                        lat_m = lat_m + 60
+
+                    lon_d = math.floor(longitude)
+                    lon_m = math.floor((longitude - lon_d) * 60)
+                    lon_s = round((longitude - lon_d - (lon_m / 60)) * 3600)
+                    lon_ds = (round((longitude - lon_d - (lon_m / 60)) * 3600 * 100) / 100) - (
+                        round((longitude - lon_d - (lon_m / 60)) * 3600))
+                    lon_ds = "{:05.2f}".format(lon_s + lon_ds)
+
+                    if float(lon_ds) >= 60:
+                        lon_m = lon_m + 1
+                        lon_s = lon_s - 60
+                    if float(lon_ds) <= 0:
+                        lon_m = lon_m - 1
+                        lon_ds = lon_s + 60
+
+                    if lon_m >= 60:
+                        lon_d = lon_d + 1
+                        lon_m = lon_m - 60
+                    if float(lon_m) < 0:
+                        lon_d = lon_d - 1
+                        lon_m = lon_m + 60
+
+                    final_lat = str("{:02d}".format(lat_d)) + "°" + str("{:02d}".format(lat_m)) + "'" + str(lat_ds) + '"'
+                    final_lon = str("{:02d}".format(lon_d)) + "°" + str("{:02d}".format(lon_m)) + "'" + str(lon_ds) + '"'
+
                     target_list.append(Bogey(enemy_type, final_lat, final_lon, altitude_feet, distance, threat, 0, 0))
 
     # sorted_target_list = sorted(target_list, key=lambda x: x.Threat)
