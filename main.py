@@ -227,7 +227,10 @@ async def on_message(message):
             splitup = message.content.split(" ")
             name = " ".join(splitup[2:])
 
-            name_coords, target_name = get_coords(name, server)
+            try:
+                name_coords, target_name = get_coords(name, server)
+            except ValueError:
+                name_coords = "error"
 
             if name_coords == "error":
                 await client.send_message(message.channel, name + " isn't a user in the server.")
