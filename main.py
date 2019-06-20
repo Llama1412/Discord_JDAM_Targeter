@@ -2,11 +2,12 @@ import datetime
 import os
 import discord
 from prettytable import PrettyTable
-
+import socket
 from algorithms import *
 from cartridge import *
 from rick import *
 
+hostname = socket.gethostname()
 token = os.getenv("discord_token", False)
 local = False
 if token is False:
@@ -133,6 +134,10 @@ async def on_message(message):
         print(message.author.name + ": " + message.content)
     if message.author == client.user:
         return
+
+    elif message.content.lower().startswith("whoareyou"):
+        msg = "I am " + str(hostname)
+        await client.send_message(message.channel, msg)
 
     elif message.content.lower().startswith("help"):
         embed = discord.Embed(
