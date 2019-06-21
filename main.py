@@ -21,7 +21,7 @@ max_assigned = 4
 def calc_time_restart(uptime):
     uptime_seconds = uptime
     time_remaining_seconds = 14400 - uptime_seconds
-    return datetime.timedelta(seconds=time_remaining_seconds)
+    return datetime.timedelta(seconds=(round(time_remaining_seconds)))
 
 
 def build_embed(lat, lon, threat, server):
