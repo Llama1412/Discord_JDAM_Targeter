@@ -147,7 +147,7 @@ async def on_message(message):
         embed.add_field(name="[gaw/pgaw/cvw] <6 fig lat> <6 fig lon>",
                         value="Looks up all units in a 5nm range around the coordinates and returns their position and type.")
         embed.add_field(name="[gaw/pgaw/cvw] <6 fig lat> <6 fig lon> <list of names>",
-                        value="Finds all targets around the coordinates, assigns up to 4 to each name, and then returns them, as well as formatted coords for Michae1s' JDAM entry tool.")
+                        value="Finds all targets around the coordinates, assigns up to 4 to each name, and then returns them, as well as a JSON file for use in Santi's Waypoint editor (pinned).")
         embed.add_field(name="[gaw/pgaw/cvw] lookup <exact ingame name>",
                         value="Looks up the target user and returns the nearest group of enemies to them.")
         embed.add_field(name="list [gaw/pgaw/cvw]",
