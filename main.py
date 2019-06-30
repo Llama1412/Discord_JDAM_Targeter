@@ -138,6 +138,12 @@ async def on_message(message):
     elif message.content.lower().startswith("whoareyou"):
         msg = "I am " + str(hostname)
         await client.send_message(message.channel, msg)
+    
+    elif message.content.lower().startswith("temp"):
+        temp = os.popen("vcgencmd measure_temp").readline()
+        measured = temp.replace("temp=",""))
+        msg = "I am " + str(measured)
+        await client.send_message(message.channel, msg)
 
     elif message.content.lower().startswith("help"):
         embed = discord.Embed(
