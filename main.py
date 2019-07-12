@@ -150,7 +150,7 @@ async def on_message(message):
     
     elif message.content.lower().startswith("temp"):
         temp = os.popen("vcgencmd measure_temp").readline()
-        measured = temp.replace("temp=",""))
+        measured = temp.replace("temp=","")
         msg = "I am " + str(measured)
         await client.send_message(message.channel, msg)
 
