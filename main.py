@@ -102,6 +102,14 @@ def check_valid(message):
         return False
 
 
+def send_udp(message):
+    target_host = "192.168.0.54"
+    target_port = 9999
+    udp_client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    msg_bytes = message.encode("utf-8")
+    udp_client.sendto(msg_bytes, (target_host, target_port))
+
+
 def check_if_assign(message):
     msg = message.content
     grouped = msg.split(" ")
@@ -132,6 +140,7 @@ async def on_message(message):
     any_targets = False
     if message.author is not client:
         print(message.author.name + ": " + message.content)
+        send_udp(message.author.name + ": " + message.content)
     if message.author == client.user:
         return
 
