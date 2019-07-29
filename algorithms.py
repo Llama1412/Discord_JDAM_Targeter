@@ -29,6 +29,7 @@ class SERVER:
     GAW = "https://state.hoggitworld.com/f67eecc6-4659-44fd-a4fd-8816c993ad0e"
     PGAW = "https://state.hoggitworld.com/243bd8b1-3198-4c0b-817a-fadb40decf23"
     CVW = "http://dcs.cvw-69.com/"
+    TNN = "https://state.hoggitworld.com/1d992a3e-366d-4fa3-ba26-80e335dbf0b5"
 
 
 threats = {
